@@ -9,8 +9,8 @@
  * @returns {String}
  */
 function createURL(url, source) {
-	if (!!url && typeof(url) == "string") {
-		return !!source && typeof(source) == "string" ? (url + source).replace(/\s/g, "").toLowerCase().trim() : url.replace(/\s/g, "").toLowerCase().trim();
+	if (!!url && typeof(url) === "string") {
+		return !!source && typeof(source) === "string" ? (url + source).replace(/\s/g, "").toLowerCase().trim() : url.replace(/\s/g, "").toLowerCase().trim();
 	} else return null;
 }
 

@@ -18,7 +18,7 @@ describe('generateFullLocation', function(){
      * which also provides the below keys
      */
     const assertNullValues = ( location, propertyToBeNull ) => propertyToBeNull.forEach( prop => {
-        assert.ok(location[prop] == null, `${prop} is not "null"`)
+        assert.ok(location[prop] === null, `${prop} is not "null"`)
     });
 
 	it('should generate a valid address object with only country', function() {

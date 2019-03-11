@@ -19,7 +19,7 @@ function getLanguageCode(source) {
 
         _.filter(languages, function(languageObject){
            _.each(_.words(languageObject.name), function(language){
-               if (language.toLowerCase() == source.replace(/\s\s+/g,"").trim().toLowerCase()) {
+               if (language.toLowerCase() === source.replace(/\s\s+/g,"").trim().toLowerCase()) {
                     languageCode = languageObject.code;
                     return;
                }

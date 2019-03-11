@@ -7,7 +7,7 @@ const _  = require('lodash');
  * @param {Object} document the database document to be unified
  * @param {Function} callback the callback function to be executed after the unification is done
  */
-async function map(result, document, mappings, plugins) {
+async function map(document, mappings, plugins) {
 
     /**
      * @function processMappings
@@ -23,7 +23,7 @@ async function map(result, document, mappings, plugins) {
      * @param {Object} result the object representing the result file
      * @param {Object} mappings the object presenting the mappings between target document and mapped one
      */
-    function processMappings(document, mappings, result, parentKey) {
+    function processMappings(mappings, document, result, parentKey) {
 
         _.each(mappings, function(path, key) {
 
@@ -35,7 +35,7 @@ async function map(result, document, mappings, plugins) {
                 _.each(path, function(subPath){
                     var subMapping = {};
                     subMapping[key] = subPath;
-                    return processMappings(document, subMapping, result);
+                    return processMappings(subMapping, document, result);
                 });
             }
 
@@ -56,7 +56,7 @@ async function map(result, document, mappings, plugins) {
                 // Check if the object is a nested object of objects or array of objects or not
                 if (!path.output) {
                     // Instantiate the empty object in the desired key and pass it to the recursive function
-                    return processMappings(document, path, result, key);
+                    return processMappings(path, document, result, key);
 
                 } else {
 
@@ -73,7 +73,7 @@ async function map(result, document, mappings, plugins) {
                             var innerResult = {};
                             var processingDocument = path.innerDocument === '!' ? document : _.merge(_.cloneDeep($value), {$value: $value, $key: $key});
 
-                            processMappings(processingDocument, path.mappings, innerResult);
+                            processMappings(path.mappings, processingDocument, innerResult);
 
                             if (_.isArray(path.required) &&
                                 _.find(path.required, requiredPath => _.isNil(_.get(innerResult, requiredPath)))){
@@ -249,8 +249,9 @@ async function map(result, document, mappings, plugins) {
         }
     }
 
-    processMappings(_.cloneDeep(document), _.cloneDeep(mappings), result);
-    return result;
+    var output = {}
+    processMappings(mappings, document, output);
+    return output;
 }
 
  module.exports = map;

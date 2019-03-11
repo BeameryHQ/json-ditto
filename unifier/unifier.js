@@ -59,8 +59,8 @@ class Ditto {
         assert.ok(this.mappings, 'The unifier does not have a valid mapping set defined');
 
         const preMap = await _preMap(this.document);
-        const map = await _map({}, preMap, this.mappings, this.plugins);
-        const postMap = await _map(map);
+        const map = await _map(preMap, this.mappings, this.plugins);
+        const postMap = await _postMap(map);
 
         return postMap;
     }

@@ -100,7 +100,7 @@ module.exports = function aggregateExperience(experience) {
         if (!!experience.experienceDuration) totalExperience += experience.experienceDuration
     })
 
-    return totalExperience == 0 ? null : totalExperience;
+    return totalExperience === 0 ? null : totalExperience;
 };
 ```
 As you can see from the example above, a plug-in is nothing more than a simple JavaScript function that can take 0+ arguments. These arguments are passed in the mapping file and are separated by `|`. For example: `@concatName(firstName|lastName)`. The following examples demonstrate the abilities of plug-ins and their definitions:
