@@ -3,7 +3,7 @@
 const _                = require('lodash');
 const assert           = require('assert');
 
-const unifier          = require('../index');
+const unifier          = require('../unifier/unifier');
 
 const propToExclude    = ['createdAt', 'updatedAt'];
 
@@ -22,11 +22,12 @@ describe('External Services Unification', function(){
 
     _.each(socialServices, function(service){
 
-        let contactJSONSample = require(`./samples/services/${service}`);
-        let contactJSONResult = require(`./results/services/${service}`);
+        let contactJSONSample  = require(`./samples/services/${service}`);
+        let contactJSONResult  = require(`./results/services/${service}`);
+        let contactJSONMapping = require(`./mappings/services/${service}`);
 
         it(`should unify correctly ${service} JSON response`, function(){
-            return new unifier().start(contactJSONSample).then((result) => {
+            return new unifier().unify(contactJSONSample, contactJSONMapping).then((result) => {
                 assertContact(_.omit(result, "id"), _.omit(contactJSONResult, "id"));
             });
         });

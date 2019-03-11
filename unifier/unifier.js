@@ -3,7 +3,6 @@
 const _              = require('lodash');
 const assert         = require('assert');
 
-let mappings         = require('../mappings/mappings');
 let defaultPlugins   = require('./plugins/index');
 
 class UnifierInterface {
@@ -281,12 +280,12 @@ class UnifierInterface {
                 	// First we need to get the value the condition is checking against .. and get the main value only if it is truthy
                 	let parameters = _.zipObject(["source", "targetValue", "comparator", "comparison", "condition"],
                         path.match(/(.+?)\?\?(.+?)\#(.*)\#(.+)/));
-                        
+
                     // Run a comparison between the values, and if fails skip the current data
                     const firstValue = applyTransformation("", parameters.comparator, "", JSON.stringify(subDocument));
                     const secondValue = applyTransformation("", parameters.condition, "", JSON.stringify(subDocument))
                     let isValidValue = operation(parameters.comparison, firstValue, secondValue);
-                    
+
                     return isValidValue ? applyTransformation(null, parameters.targetValue, null, subDocument) : null;
                 } else {
                     // Here we check if the subDocument is a string (which indicates we need to get the value from a sub-path)
@@ -331,9 +330,9 @@ class UnifierInterface {
 }
 /**
  * Runs a comparison ( === , ==, !==, != ) against the given values
- * @param {string} op 
- * @param {*} value1 
- * @param {*} value2 
+ * @param {string} op
+ * @param {*} value1
+ * @param {*} value2
  */
 function operation(op, value1, value2){
     switch(op){

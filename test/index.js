@@ -1,15 +1,14 @@
 'use strict';
 
-var _                  = require('lodash');
-const assert           = require('assert');
-const crypto           = require('crypto');
-const fs               = require('fs');
-const path             = require('path');
+var _                = require('lodash');
+const assert         = require('assert');
+const crypto         = require('crypto');
+const fs             = require('fs');
+const path           = require('path');
 
-const unifier          = require('../index');
-const unifierInterface = require('../unifier/unifier');
+const unifier        = require('../unifier/unifier');
 
-const propToExclude    = ['createdAt', 'updatedAt'];
+const propToExclude  = ['createdAt', 'updatedAt'];
 
 /**
  * Assert a contact match, removing Date field that can't be asserted with exact match
@@ -36,7 +35,7 @@ describe('Unifier Interface', function(){
     };
 
     before(function(){
-        return new unifierInterface(dummySample, dummyMappings, dummyPlugin).unify().then((result) => {
+        return new unifier(dummySample, dummyMappings, dummyPlugin).unify().then((result) => {
             this.result = result;
         });
     });
@@ -205,7 +204,7 @@ describe('Unifier Interface', function(){
             }
         }};
 
-        return new unifierInterface(badObj, {
+        return new unifier(badObj, {
             "social_media_addresses": {
                 "output": [],
                 "innerDocument": "data.links.values",
