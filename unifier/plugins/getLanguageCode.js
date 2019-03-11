@@ -13,19 +13,19 @@ function getLanguageCode(source) {
 
 	if (!source || typeof(source) !== "string") return null;
 
-     let languages = require('./data/languages.json')
+    const languages = require('./data/languages.json')
 
-        let languageCode = null;
+    let languageCode = null;
 
-        _.filter(languages, function(languageObject){
-           _.each(_.words(languageObject.name), function(language){
-               if (language.toLowerCase() === source.replace(/\s\s+/g,"").trim().toLowerCase()) {
-                    languageCode = languageObject.code;
-                    return;
-               }
-            });
+    _.filter(languages, function(languageObject){
+        _.each(_.words(languageObject.name), function(language){
+            if (language.toLowerCase() === source.replace(/\s\s+/g,"").trim().toLowerCase()) {
+                languageCode = languageObject.code;
+                return;
+            }
         });
-        return languageCode;
+    });
+    return languageCode;
 }
 
 module.exports = getLanguageCode;

@@ -13,7 +13,7 @@ function getCountryName(countryCode) {
 
     if (!countryCode) return null;
 
-    let countries = require('./data/countriesKB')
+    const countries = require('./data/countriesKB')
 
     return _.get(_.filter(countries, _country => {
         return (_.has(_country, 'alpha3Code') && _country.alpha3Code.toLowerCase() === countryCode.toLowerCase())

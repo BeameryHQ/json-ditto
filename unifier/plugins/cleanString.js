@@ -12,11 +12,11 @@ const _ = require('lodash');
 function cleanString(source) {
 
     if (_.isString(source) && !!source) {
-        let cleanedString = source.toString().replace(/[`~$^*¦|+\=?;,:<>\{\}\[\]\\\/]/gi, '')
-                     .replace(/^(\.+)/g, "")
-                     .replace(/\.(?=\.+$)/g, "")
-                     .replace(/\s\s+/g, "")
-                     .trim();
+        const cleanedString = source.toString().replace(/[`~$^*¦|+\=?;,:<>\{\}\[\]\\\/]/gi, '')
+            .replace(/^(\.+)/g, "")
+            .replace(/\.(?=\.+$)/g, "")
+            .replace(/\s\s+/g, "")
+            .trim();
         return !cleanedString.length ? null : cleanedString;
     } else return null;
 }

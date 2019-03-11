@@ -12,9 +12,7 @@ const _ = require('lodash');
  */
 function cleanEmail(source) {
     if (_.isString(source) && !!source) {
-        let cleanedEmail = source.toLowerCase()
-        .replace(/\s\s+/g, "")
-        .trim();
+        const cleanedEmail = source.toLowerCase().replace(/\s\s+/g, "").trim();
         return !cleanedEmail.length ? null : cleanedEmail;
     } else return null;
 }
