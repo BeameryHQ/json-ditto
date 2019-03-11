@@ -44,9 +44,9 @@ Add extra set of plugins to the default ones
 
 | Param | Type | Description |
 | --- | --- | --- |
-| plugins | <code>Object</code> | the extra plugins passed to be added to the default set of unifier plugins |
+| plugins | <code>Object</code> | the extra plugins passed to be added to the default set of Ditto plugins |
 
-The unifier performs four main steps in sequence, where the output of each step is fed as input to the next one. Those steps are:
+Ditto performs four main steps in sequence, where the output of each step is fed as input to the next one. Those steps are:
 
  - **_preMap**: Start the pre-mapping process which runs before the main mapping process
  - **_map**: Start the unification process based on the manual mapping files. This is the step where the mapping file is read and the data is mapped accordingly
@@ -230,17 +230,17 @@ However, things can become a bit more complex when we trying to create complex o
 
 ## Mapping FAQs:
 
- - How can i point the unifier to a deep nested Object ?
- > The unifier uses Lodash's `_.get` which means that you can pass any path in form of a String or an Array e.g., `a.b.c[0].d` or `[a, b, c[0], d]`
+ - How can i point the Ditto to a deep nested Object ?
+ > Ditto uses Lodash's `_.get` which means that you can pass any path in form of a String or an Array e.g., `a.b.c[0].d` or `[a, b, c[0], d]`
 
  - How can i iterate over a nested Object ?
- > To iterate over a sub-path, you need to define an `innerDocument`. The inner document path is again parsed with the `_.get` so it can be as complex as it can get. However, as the structure of the unifier requires that an `innerDocument` has to be defined when creating an array or Object of Objects, you can refer to the current document root with **!**
+ > To iterate over a sub-path, you need to define an `innerDocument`. The inner document path is again parsed with the `_.get` so it can be as complex as it can get. However, as the structure of the Ditto requires that an `innerDocument` has to be defined when creating an array or Object of Objects, you can refer to the current document root with **!**
 
  - I see some paths prefixed with `!` .. what does that mean ?
  > Sometimes you need to access already parsed values (as in values in your result file). This is seen for example when we are trying to create the `keys` array from the already generated ids. In that case, the **!** prefixed path e.g., `!links.values` will refer to the already extracted `links.values` Object in the result file
 
  - If i want to extract data from multiple places for the same Object, how can i do that ?
- > The unifier allow to specify multiple Objects to be set as a parsing target. For example, if we are creating an Object and you to have the `values` extracted from multiple places then you define your `values` as an array of objects where each Object will have output, innerDocument, etc. (you can check the `contacts.v2.js` sample mappping file). However, if you are creating an Object without `values` then your direct mapping will be an array of Object (check `test.js` sample mapping file and see the `social_links` mapping)
+ > Ditto allows to specify multiple Objects to be set as a parsing target. For example, if we are creating an Object and you to have the `values` extracted from multiple places then you define your `values` as an array of objects where each Object will have output, innerDocument, etc. (you can check the `contacts.v2.js` sample mappping file). However, if you are creating an Object without `values` then your direct mapping will be an array of Object (check `test.js` sample mapping file and see the `social_links` mapping)
 
  - If i am creating an Object of Object, each Object should have a key. How can i define that ?
  > For object of objects (i believe you have defined the output as `{}`) then you need to define a `key` object. The `key` object is an array where you define that various targets that will be parsed as a key. The key is defined either as a relative path to the currently parsed Object or as a function call e.g., `"key": "@generateId($key|degree)"`
