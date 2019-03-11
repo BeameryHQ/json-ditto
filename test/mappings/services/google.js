@@ -77,10 +77,5 @@ module.exports = {
     "createdAt": "@!new Date()",
     "creationSource": {
         "value": "source"
-    },
-    "uniqueKeys" : {
-        "output"       : [],
-        "innerDocument": "!",
-        "value"        : "@assignUniqueIds(!links.values|!emails.values)"
     }
 }
