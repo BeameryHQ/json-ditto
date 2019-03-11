@@ -21,7 +21,7 @@ class Ditto {
      * @param {Object} plugins the extra plugins passed to be added to the default set of unifier plugins
      */
     addPlugins(plugins) {
-        assert.ok(plugins, "The unifier function should have a valid array of plugins defined to be set");
+        assert.ok(plugins, 'The unifier function should have a valid array of plugins defined to be set');
         this.plugins = _.merge(defaultPlugins, plugins);
     }
 
@@ -45,8 +45,8 @@ class Ditto {
         if (document) this.document = document;
         if (mappings) this.mappings = mappings;
 
-        assert.ok(this.document, "The unifier does not have a valid source document to unify");
-        assert.ok(this.mappings, "The unifier does not have a valid mapping set defined");
+        assert.ok(this.document, 'The unifier does not have a valid source document to unify');
+        assert.ok(this.mappings, 'The unifier does not have a valid mapping set defined');
 
         return Promise.resolve(this._preMap({}, this.document, this.mappings))
             .then(this._map.bind(this))
@@ -138,7 +138,7 @@ class Ditto {
                             if (path.mappings) {
 
                                 var innerResult = {};
-                                var processingDocument = path.innerDocument === "!" ? document : _.merge(_.cloneDeep($value), {$value: $value, $key: $key});
+                                var processingDocument = path.innerDocument === '!' ? document : _.merge(_.cloneDeep($value), {$value: $value, $key: $key});
 
                                 processMappings(processingDocument, path.mappings, innerResult);
 
@@ -158,7 +158,7 @@ class Ditto {
                             }
 
                             // here we are breaking out of the each if we have defined the innerDocument as the parent document
-                            if (path.innerDocument === "!") return false;
+                            if (path.innerDocument === '!') return false;
                         });
 
                         function parseMappings(result, innerResult, path, key, $value, $key) {
@@ -169,7 +169,7 @@ class Ditto {
 	                            		if (!!eval(path.prerequisite)) _.updateWith(mappingResult, key, function(theArray){ theArray.push(innerResult); return theArray }, []);
 	                            	} else _.updateWith(mappingResult, key, function(theArray){ theArray.push(innerResult); return theArray }, []);
 	                            } else {
-	                                let fullPath = `${key}.${applyTransformation(key, path["key"], $key, $value)}`;
+	                                let fullPath = `${key}.${applyTransformation(key, path['key'], $key, $value)}`;
 	                                if (!!path.prerequisite) {
 	                                	if (!!eval(path.prerequisite)) _.set(mappingResult, fullPath, innerResult);
 	                                } else _.set(mappingResult, fullPath, innerResult);
@@ -196,10 +196,13 @@ class Ditto {
              */
             function applyTransformation(key, path, $key, $value) {
 
-                if      (path.indexOf("??") > -1)  return getValue(path, $value);
-                else if (_.startsWith(path, "$"))  return eval(path)
-                else if (_.startsWith(path, "@!")) return eval(path.replace('@!', ''))
-				else if (_.startsWith(path, '@')) {
+                if (path.includes('??'))  {
+                    return getValue(path, $value);
+                } else if (_.startsWith(path, '$'))  {
+                    return eval(path);
+                } else if (_.startsWith(path, '@!')) {
+                    return eval(path.replace('@!', ''));
+                } else if (_.startsWith(path, '@')) {
 
                     /**
                      * The parts in the string function are split into:
@@ -207,12 +210,11 @@ class Ditto {
                      * the function name is anything after the @ and the () if exists
                      * the paramteres are anything inside the () separated by a |
                      */
-
                     let paramteresArray, paramteresValues = [];
 
                     // Regular expression to extract any text between ()
                     let functionParameteres  = path.match(/.+?\((.*)\)/);
-                    let functionCall         = path.split("(")[0].replace('@', '');
+                    let functionCall         = path.split('(')[0].replace('@', '');
 
                     // Now we want to split the paramteres by a | in case we pass more than one param
                     // We also need to check if we are assigning a default value for that function denoted by a *
@@ -221,11 +223,11 @@ class Ditto {
                         // We need to check if the function parameters have inlined functions that we need to execute
                         paramteresArray = _.compact(functionParameteres[1].split('|'));
 
-                        if (_.last(paramteresArray).indexOf("*") !== -1 && !! applyTransformation(key, _.last(paramteresArray).replace('*', '').replace(',', '|'), $key, $value)) {
+                        if (_.last(paramteresArray).includes('*') && !! applyTransformation(key, _.last(paramteresArray).replace('*', '').replace(',', '|'), $key, $value)) {
 							return applyTransformation(key, _.last(paramteresArray).replace('*', '').replace(',', '|'), $key, $value)
                         } else {
                             // we compact the array here to remove any undefined objects that are not caught by the _.get in the map function
-                            paramteresValues = _.union(paramteresValues, _.map(paramteresArray, function(param){ return _.startsWith(param, "$") ? eval(param) : applyTransformation(key, param.replace(',', '|'), $key, $value) }));
+                            paramteresValues = _.union(paramteresValues, _.map(paramteresArray, function(param){ return _.startsWith(param, '$') ? eval(param) : applyTransformation(key, param.replace(',', '|'), $key, $value) }));
                         }
                     }
 
@@ -266,23 +268,23 @@ class Ditto {
 
                 if (!path) return;
 
-                if (path === "!") return document;
+                if (path === '!') return document;
 
-                if (_.startsWith(path, ">>")) {
-                    return _.startsWith(path, ">>%") ? eval(path.replace(">>%", "")) : path.replace(">>", '');
-                } else if (_.startsWith(path, "!")) {
+                if (_.startsWith(path, '>>')) {
+                    return _.startsWith(path, '>>%') ? eval(path.replace('>>%', '')) : path.replace('>>', '');
+                } else if (_.startsWith(path, '!')) {
                     return _.get(mappingResult, path.replace('!', ''));
-                } else if (/\|\|/.test(path) && path.indexOf("??") == -1 ) {
+                } else if (/\|\|/.test(path) && !path.includes('??') ) {
                     let pathWithDefault = path.split(/\|\|/);
                     return getValue(pathWithDefault[0], subDocument) || getValue(`${pathWithDefault[1]}`);
-                } else if (path.indexOf("??") > -1 ){
+                } else if (path.includes('??') ){
                 	// First we need to get the value the condition is checking against .. and get the main value only if it is truthy
-                	let parameters = _.zipObject(["source", "targetValue", "comparator", "comparison", "condition"],
+                	let parameters = _.zipObject(['source', 'targetValue', 'comparator', 'comparison', 'condition'],
                         path.match(/(.+?)\?\?(.+?)\#(.*)\#(.+)/));
 
                     // Run a comparison between the values, and if fails skip the current data
-                    const firstValue = applyTransformation("", parameters.comparator, "", JSON.stringify(subDocument));
-                    const secondValue = applyTransformation("", parameters.condition, "", JSON.stringify(subDocument))
+                    const firstValue = applyTransformation('', parameters.comparator, '', JSON.stringify(subDocument));
+                    const secondValue = applyTransformation('', parameters.condition, '', JSON.stringify(subDocument))
                     let isValidValue = operation(parameters.comparison, firstValue, secondValue);
 
                     return isValidValue ? applyTransformation(null, parameters.targetValue, null, subDocument) : null;
