@@ -6,7 +6,7 @@ JSON (JavaScript Object Notation) is a lightweight data-interchange format. It i
 
 Ditto exposes a class that can be instantiated with a mapping file and/or plugins list. You can either use the `unify` method with the document you wish to unify with the mappings and plugins passed to the constructor.
 
-```
+```javascript
 const Ditto = require('json-ditto');
 
 // This is valid JSON mapping file that maps to the mapping rules below
@@ -23,7 +23,7 @@ myCustomMapper.unify(documentToBeUnified).then((result) => {
 
 or you can create a default instance and pass the document with the mappings to the `unify` function.
 
-```
+```javascript
 const Ditto = require('json-ditto');
 
 // This is valid JSON mapping file that maps to the mapping rules below
@@ -135,7 +135,7 @@ Examples:
 The plugins are activated in the `/unifier/plugins/plugins.js` file by adding the plugin name (corresponds exactly to the file name `.js` of the definition) in the `plugins` array.
 The plugin will be reuqired and exported to be used in the main `mapping` function in the interface.
 
-```js
+```javascript
 'use strict';
 
 module.exports = {
