@@ -5,12 +5,11 @@ const assert         = require('assert');
 
 let defaultPlugins   = require('./plugins/index');
 
-class UnifierInterface {
+class Ditto {
 
     // TODO: Fix this when we have a supportive Node version for ES6 default parameters
-    constructor(document, mappings, plugins) {
+    constructor(mappings, plugins) {
 
-        this.document = document;
         this.mappings = mappings;
         this.plugins  = plugins ? _.merge(defaultPlugins, plugins) : defaultPlugins;
     }
@@ -348,4 +347,4 @@ function operation(op, value1, value2){
     return false;
 }
 
-module.exports = UnifierInterface;
+module.exports = Ditto;

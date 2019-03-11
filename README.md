@@ -1,8 +1,43 @@
-## Ditto
+# Ditto
 
 JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. When dealing with data integration problems, the need to translate JSON from external formats to adhere to an internal representation become a vital task. Ditto was created to solve the issue of unifying external data representation. Ditto needs to have a defined `.json` mapping file and exposes a Class to be implemented each service. Ditto will parse the mapping file and convert an existing JSON to match the rules defined in the mapping file.
 
-## The Ditto Class (unifier)
+# How to use Ditto
+
+Ditto exposes a class that can be instantiated with a mapping file and/or plugins list. You can either use the `unify` method with the document you wish to unify with the mappings and plugins passed to the constructor.
+
+```
+const Ditto = require('json-ditto');
+
+// This is valid JSON mapping file that maps to the mapping rules below
+const myCustomMappings = require('./myMappingFile');
+
+// Create a new mapper that will always use the "myCustomMappings" file
+const myCustomMapper = new Ditto(myCustomMappings);
+
+// Call the unify function that will read the "documentToBeUnified" and transforms it via the mapping file
+myCustomMapper.unify(documentToBeUnified).then((result) => {
+    .....
+});
+```
+
+or you can create a default instance and pass the document with the mappings to the `unify` function.
+
+```
+const Ditto = require('json-ditto');
+
+// This is valid JSON mapping file that maps to the mapping rules below
+const myCustomMappings = require('./myMappingFile');
+
+// Call the unify function that will read the "documentToBeUnified" and transforms it via the mapping file passed to the constructor
+return new Ditto.unify(myCustomMappings, documentToBeUnified).then((result) => {
+    .....
+});
+```
+
+By default, you can use the built-in plugins provided with Ditto using the syntax defined below in your mapping. However, if you wish to register additional plugins you can use the following `addPlugins` method or you can pass the plugins to the constructor directly via `new Ditto(myCustomMappings, myCustomPlugins)`.
+
+> Note: Adding plugins extends and will not overwrite the default plugins
 
 ## addPlugins(plugins)
 Add extra set of plugins to the default ones

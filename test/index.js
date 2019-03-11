@@ -10,15 +10,6 @@ const unifier        = require('../unifier/unifier');
 
 const propToExclude  = ['createdAt', 'updatedAt'];
 
-/**
- * Assert a contact match, removing Date field that can't be asserted with exact match
- * @param result
- * @param fileImportJsonResult
- */
-function assertContact(result, fileImportJsonResult) {
-    assert.deepStrictEqual(_.omit(result, propToExclude), _.omit(fileImportJsonResult, propToExclude));
-}
-
 describe('Unifier Interface', function(){
 
     let dummySample   = require('./samples/test');
@@ -35,7 +26,7 @@ describe('Unifier Interface', function(){
     };
 
     before(function(){
-        return new unifier(dummySample, dummyMappings, dummyPlugin).unify().then((result) => {
+        return new unifier(dummyMappings, dummyPlugin).unify(dummySample).then((result) => {
             this.result = result;
         });
     });
@@ -204,7 +195,7 @@ describe('Unifier Interface', function(){
             }
         }};
 
-        return new unifier(badObj, {
+        return new unifier({
             "social_media_addresses": {
                 "output": [],
                 "innerDocument": "data.links.values",
@@ -214,7 +205,7 @@ describe('Unifier Interface', function(){
                     "value": "value??type#==#>>social"
                 }
             }
-        }).unify().then((result) => {
+        }).unify(badObj).then((result) => {
             assert.deepEqual(result, { social_media_addresses: [ { value: ' this is a value' } ] });
         });
 
