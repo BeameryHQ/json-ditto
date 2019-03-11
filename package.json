@@ -1,0 +1,35 @@
+{
+  "name": "Ditto",
+  "private": true,
+  "version": "1.0.0",
+  "description": "JSON shape-shifter 👻 | Easily map your JSON formats",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/index.js",
+    "performance": "node --allow-natives-syntax ./node_modules/mocha/bin/_mocha --reporter mocha-performance ./test/index.js",
+    "cover": "NODE_ENV=test istanbul cover _mocha -- -R spec test/index.js | static-server -p 3222 coverage/lcov-report/",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com:BeameryHQ/Ditto.git"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "URI": "git+https://github.com:BeameryHQ/URI.git",
+    "crypto": "0.0.3",
+    "humanparser": "1.1.1",
+    "joi": "^9.0.4",
+    "lodash": "^4.5.1",
+    "moment": "^2.15.0",
+    "uuid": "^2.0.3"
+  },
+  "devDependencies": {
+    "debug": "^2.6.6",
+    "eslint": "^5.12.1",
+    "jest": "^24.3.1",
+    "mocha": "^5.2.0",
+    "mocha-performance": "^0.1.1",
+    "mocha-sonar-reporter": "^0.1.6"
+  }
+}
