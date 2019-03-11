@@ -4,6 +4,7 @@ logs
 .DS_Store
 .vscode
 .vs/
+.github/
 
 npm-debug.log*
 
