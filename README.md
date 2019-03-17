@@ -1,6 +1,10 @@
 # Ditto
 
-JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. When dealing with data integration problems, the need to translate JSON from external formats to adhere to an internal representation become a vital task. Ditto was created to solve the issue of unifying external data representation. Ditto needs to have a defined `.json` mapping file and exposes a Class to be implemented each service. Ditto will parse the mapping file and convert an existing JSON to match the rules defined in the mapping file.
+JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. When dealing with data integration problems, the need to translate JSON from external formats to adhere to an internal representation become a vital task. Ditto was created to solve the issue of unifying external data representation. 
+
+Ditto parses a mapping file (see [mapping rules](https://github.com/BeameryHQ/Ditto#mapping-rules)) and produces a JSON output from the input data to match the output definition. Ditto has three main mapping steps as shown in the diagram below:
+
+![ditto](https://user-images.githubusercontent.com/550726/54499781-810c9a00-490d-11e9-9003-54259ba1dd99.png)
 
 # How to use Ditto
 
