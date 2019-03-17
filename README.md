@@ -4,7 +4,9 @@ JSON (JavaScript Object Notation) is a lightweight data-interchange format. It i
 
 Ditto parses a mapping file (see [mapping rules](https://github.com/BeameryHQ/Ditto#mapping-rules)) and produces a JSON output from the input data to match the output definition. Ditto has three main mapping steps as shown in the diagram below:
 
-![ditto](https://user-images.githubusercontent.com/550726/54499781-810c9a00-490d-11e9-9003-54259ba1dd99.png)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/550726/54499781-810c9a00-490d-11e9-9003-54259ba1dd99.png">
+</p>
 
 # How to use Ditto
 
