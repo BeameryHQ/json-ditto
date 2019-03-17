@@ -4,10 +4,10 @@ const _ = require('lodash');
 const assert = require('assert');
 const moment = require('moment');
 
-const plugins = require('../../unifier/plugins/index');
+const plugins = require('../../ditto/plugins/index');
 
 describe('formatDate plugin', function () {
-    
+
     it('should convert dates to strings without format', function () {
         const dateString = '2018-01-01';
         assert.equal(plugins.formatDate(new Date(dateString)), '2018-01-01T00:00:00Z');

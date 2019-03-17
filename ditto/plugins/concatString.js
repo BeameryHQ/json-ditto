@@ -9,8 +9,8 @@ const _ = require("lodash");
  */
 function concatString() {
 
-	let name = _.remove(_.flatten(_.values(arguments)), _.isString);
-	return  !!name && !!name.length ? name.join('').trim() : null;
+	let string = _.remove(_.flatten(_.values(arguments)), _.isString);
+	return !!string && !!string.length ? string.join('').trim() : null;
 }
 
 module.exports = concatString;

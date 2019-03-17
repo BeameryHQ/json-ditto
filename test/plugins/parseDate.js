@@ -3,8 +3,8 @@
 const _                = require('lodash');
 const assert           = require('assert');
 
-const unifierInterface = require('../../unifier/unifier');
-const plugins          = require('../../unifier/plugins/index');
+const dittoInterface = require('../../ditto/ditto');
+const plugins          = require('../../ditto/plugins/index');
 
 
 const isValidDate = (input) => !isNaN(Date.parse(input));
@@ -69,7 +69,7 @@ describe('parseDate plugin', function(){
             }
         };
 
-        return new unifierInterface().unify(dummySample, testMap).then((result) => {
+        return new dittoInterface().unify(dummySample, testMap).then((result) => {
             assert.equal(result.testDate.getFullYear(), 2016);
             assert.equal(result.testDate.getMonth()+1, 7);
         });

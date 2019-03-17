@@ -15,12 +15,12 @@ function generateCleanId() {
 	let idFields = _.remove(_.flatten(_.values(arguments)), _.isString);
 
 	if (!!idFields && !!idFields.length) {
-		let cleanedSourceString =    idFields.join(' ')
-									 .toString().replace(/[`~$^*¦_|+\=?;:'"<>\{\}\[\]\\\/]/gi, '')
-					                 .replace(/[\n\t\r]/g,"")
-					                 .replace(/^[,.\s]+|[,.\s]+$/g, "")
-					                 .replace(/\s\s+/g,' ')
-					                 .toLowerCase().trim();
+		const cleanedSourceString = idFields.join(' ')
+            .toString().replace(/[`~$^*¦_|+\=?;:'"<>\{\}\[\]\\\/]/gi, '')
+            .replace(/[\n\t\r]/g,"")
+            .replace(/^[,.\s]+|[,.\s]+$/g, "")
+            .replace(/\s\s+/g,' ')
+            .toLowerCase().trim();
 	    return crypto.createHash('md5').update(cleanedSourceString).digest("hex")
 	} else return null;
 }

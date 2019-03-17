@@ -16,7 +16,7 @@ const BANNED_URLS = [
  */
 function cleanURI(source, service) {
 
-	if (!!source && typeof(source) == "string") {
+	if (!!source && typeof(source) === "string") {
 
     // Replace all spaces with nothing, and truncate to 400 chars,
     // or URL.parse will blow out and loop on 100% cpu :(

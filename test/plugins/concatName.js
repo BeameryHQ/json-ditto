@@ -3,7 +3,7 @@
 var _                  = require('lodash');
 const assert           = require('assert');
 
-const plugins          = require('../../unifier/plugins/index');
+const plugins          = require('../../ditto/plugins/index');
 
 describe('concatName plugin', function(){
 

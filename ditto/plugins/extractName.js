@@ -15,10 +15,10 @@ function extractName(fullName, position) {
 
 	const ALLOWED_POSITIONS = ["firstName", "middleName", "lastName"];
 
-	if (!!fullName && typeof(fullName) == "string"
+	if (!!fullName && typeof(fullName) === "string"
 		&& !!position && ALLOWED_POSITIONS.indexOf(position) > -1) {
 
-		let name = human.parseName(fullName);
+		const name = human.parseName(fullName);
 
 		switch(position) {
 			case "firstName": return name.firstName;

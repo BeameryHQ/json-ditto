@@ -14,7 +14,7 @@ function getCountryCode(countryCode, country) {
 
     if (!countryCode && !country) return null;
 
-    let countries = require('./data/countriesKB')
+    const countries = require('./data/countriesKB')
 
     // Check if we don't have the ISO2 country code but have a country
     if (!countryCode) {

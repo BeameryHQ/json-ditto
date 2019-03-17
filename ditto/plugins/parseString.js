@@ -10,7 +10,7 @@
  */
 function parseString(source) {
 
-    return (typeof(source) == "boolean" || !!source) ? "" + source : null;
+    return (typeof(source) === "boolean" || !!source) ? "" + source : null;
 
 }
 

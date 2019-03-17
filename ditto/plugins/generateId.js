@@ -12,7 +12,7 @@ const crypto = require('crypto');
  */
 function generateId() {
 
-	let idFields = _.remove(_.flatten(_.values(arguments)), _.isString);
+	const idFields = _.remove(_.flatten(_.values(arguments)), _.isString);
 
 	// TODO: re-add the regex .replace(/\s\s+/g,' ') to the chain to make sure we have a properly cleaned string
 	return  !!idFields && !!idFields.length ?  crypto.createHash('md5').update(idFields.join(' ').toLowerCase().trim()).digest("hex") : null;

@@ -6,11 +6,11 @@ const crypto         = require('crypto');
 const fs             = require('fs');
 const path           = require('path');
 
-const unifier        = require('../unifier/unifier');
+const ditto        = require('../ditto/ditto');
 
 const propToExclude  = ['createdAt', 'updatedAt'];
 
-describe('Unifier Interface', function(){
+describe('ditto Interface', function(){
 
     let dummySample   = require('./samples/test');
     let dummyResult   = require('./results/test');
@@ -26,7 +26,7 @@ describe('Unifier Interface', function(){
     };
 
     before(function(){
-        return new unifier(dummyMappings, dummyPlugin).unify(dummySample).then((result) => {
+        return new ditto(dummyMappings, dummyPlugin).unify(dummySample).then((result) => {
             this.result = result;
         });
     });
@@ -177,7 +177,7 @@ describe('Unifier Interface', function(){
         assert.deepEqual(this.result.primaryExperience, dummyResult.primaryExperience);
     });
 
-    it('should cover all the cases defined by the unifier interface', function(){
+    it('should cover all the cases defined by the ditto interface', function(){
         assert.deepStrictEqual(this.result, dummyResult);
     });
 
@@ -195,7 +195,7 @@ describe('Unifier Interface', function(){
             }
         }};
 
-        return new unifier({
+        return new ditto({
             "social_media_addresses": {
                 "output": [],
                 "innerDocument": "data.links.values",
@@ -212,13 +212,13 @@ describe('Unifier Interface', function(){
 
     });
 
-    const plugins = require('../unifier/plugins/index');
+    const plugins = require('../ditto/plugins/index');
 
-    describe('Unifier Plugins', function(){
+    describe('ditto Plugins', function(){
         _.each(plugins, function(plugin, pluginName) {
             const plugintTestPath = path.join(__dirname, `./plugins/${pluginName}.js`);
             if (!fs.existsSync(plugintTestPath)) {
-                console.error(`\x1b[31m No valid test is found for Unifier Plugin: ${pluginName}`);
+                console.error(`\x1b[31m No valid test is found for ditto Plugin: ${pluginName}`);
             } else {
                 require(plugintTestPath);
             }
