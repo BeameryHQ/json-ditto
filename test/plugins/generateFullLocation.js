@@ -3,8 +3,8 @@
 const assert           = require('assert');
 const _                = require('lodash');
 const debug            = require('debug')('tests:generateFullLocation')
-const unifierInterface = require('../../unifier/unifier');
-const plugins          = require('../../unifier/plugins/index');
+const dittoInterface = require('../../ditto/ditto');
+const plugins          = require('../../ditto/plugins/index');
 
 describe('generateFullLocation', function(){
     const testMappings = {
@@ -29,7 +29,7 @@ describe('generateFullLocation', function(){
                 }
             }
         };
-        return new unifierInterface().unify(testData, testMappings).then((result) => {
+        return new dittoInterface().unify(testData, testMappings).then((result) => {
             debug({result});
             assert.equal(result.location.address, `${testData.data.location.country}`);
             assertNullValues(result.location, [ 'geometry', 'postalCode' ]);
@@ -46,7 +46,7 @@ describe('generateFullLocation', function(){
                 }
             }
         };
-        return new unifierInterface().unify(testData, testMappings).then((result) => {
+        return new dittoInterface().unify(testData, testMappings).then((result) => {
             debug(result);
             assert.equal(result.location.address, `${testData.data.location.city}, ${testData.data.location.country}`);
             assertNullValues(result.location, [ 'geometry', 'postalCode' ]);
@@ -64,7 +64,7 @@ describe('generateFullLocation', function(){
                 }
             }
         };
-        return new unifierInterface().unify(testData, testMappings).then((result) => {
+        return new dittoInterface().unify(testData, testMappings).then((result) => {
             debug(result);
             assert.equal(result.location.address, `${testData.data.location.city}, ${testData.data.location.country}`);
             assert.equal(result.location.countryCode, 'es');
@@ -80,7 +80,7 @@ describe('generateFullLocation', function(){
                 }
             }
         };
-        return new unifierInterface().unify(testData, testMappings).then((result) => {
+        return new dittoInterface().unify(testData, testMappings).then((result) => {
             debug(result);
             assert.equal(Object.keys(result).length, 0);
         });

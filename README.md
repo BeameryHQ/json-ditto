@@ -132,7 +132,7 @@ Examples:
 
 #### Plugins Activation
 
-The plugins are activated in the `/unifier/plugins/plugins.js` file by adding the plugin name (corresponds exactly to the file name `.js` of the definition) in the `plugins` array.
+The plugins are activated in the `/ditto/plugins/plugins.js` file by adding the plugin name (corresponds exactly to the file name `.js` of the definition) in the `plugins` array.
 The plugin will be reuqired and exported to be used in the main `mapping` function in the interface.
 
 ```javascript

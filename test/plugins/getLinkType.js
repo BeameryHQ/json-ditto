@@ -3,8 +3,8 @@
 var _                  = require('lodash');
 const assert           = require('assert');
 
-const unifierInterface = require('../../unifier/unifier');
-const plugins          = require('../../unifier/plugins/index');
+const dittoInterface = require('../../ditto/ditto');
+const plugins          = require('../../ditto/plugins/index');
 
 describe('getLinkType plugin', function(){
 

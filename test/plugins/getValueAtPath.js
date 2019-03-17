@@ -2,7 +2,7 @@
 'use strict';
 
 const assert = require('assert');
-const { getValueAtPath } = require('../../unifier/plugins');
+const { getValueAtPath } = require('../../ditto/plugins');
 
 describe('getValueAtPath', function () {
 

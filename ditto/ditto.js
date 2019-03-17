@@ -18,11 +18,11 @@ class Ditto {
      * @function addPlugins
      *
      * @description Add extra set of plugins to the default ones
-     * @param {Object} plugins the extra plugins passed to be added to the default set of unifier plugins
+     * @param {Object} plugins the extra plugins passed to be added to the default set of ditto plugins
      */
     addPlugins(plugins) {
 
-        assert.ok(plugins, 'The unifier function should have a valid array of plugins defined to be set');
+        assert.ok(plugins, 'The ditto function should have a valid array of plugins defined to be set');
 
         this.plugins = _.merge(defaultPlugins, plugins);
     }
@@ -55,8 +55,8 @@ class Ditto {
             this.mappings = mappings;
         }
 
-        assert.ok(this.document, 'The unifier does not have a valid source document to unify');
-        assert.ok(this.mappings, 'The unifier does not have a valid mapping set defined');
+        assert.ok(this.document, 'The ditto does not have a valid source document to unify');
+        assert.ok(this.mappings, 'The ditto does not have a valid mapping set defined');
 
         const preMap = await _preMap(this.document);
         const map = await _map(preMap, this.mappings, this.plugins);

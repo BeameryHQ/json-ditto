@@ -181,19 +181,19 @@ async function map(document, mappings, plugins) {
          * @function getValue
          * @description This function will get the value using the _.get by inspecting the scope of the get
          * The existence of the ! will define a local scope in the result object rather than the document
-
-        * The Flat structure can contain the following cases:
-        *  - starts with !: This will denote that the contact on which the _.get will be on a previously extracted
-        *    value in the result file
-        *  - starts with >>: This means a hardcoded value e.g., >>test -> test
-        *  - contains @: This means that a function will be applied on the value before the @ sign
-        *    The functions first parameter will be the value before the @ and any additional parameters will be defined
-        *    between the parenthesis e.g., name@strip(','') -- will call --> strip(name, ',')
-        *  - contains %: This will denote a casting function to the value using eval
-        *    e.g., >>%true -> will be a true as a boolean and not as a string
-        *  - contains ?? means that a condition has to be applied before assigning the value. The condition to apply
-        *    is the one defined after the ->
-        *
+            *
+            * The Flat structure can contain the following cases:
+            *  - starts with !: This will denote that the contact on which the _.get will be on a previously extracted
+            *    value in the result file
+            *  - starts with >>: This means a hardcoded value e.g., >>test -> test
+            *  - contains @: This means that a function will be applied on the value before the @ sign
+            *    The functions first parameter will be the value before the @ and any additional parameters will be defined
+            *    between the parenthesis e.g., name@strip(','') -- will call --> strip(name, ',')
+            *  - contains %: This will denote a casting function to the value using eval
+            *    e.g., >>%true -> will be a true as a boolean and not as a string
+            *  - contains ?? means that a condition has to be applied before assigning the value. The condition to apply
+            *    is the one defined after the ->
+            *
         * @param  {String} path the path to pass for the _.get to retrieve the value
         * @return {Object} result the object representing the result file
         */

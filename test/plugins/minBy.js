@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('assert');
-const { minBy } = require('../../unifier/plugins');
+const { minBy } = require('../../ditto/plugins');
 
 describe('minBy', function () {
 

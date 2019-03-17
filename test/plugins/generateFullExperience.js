@@ -3,8 +3,8 @@
 const assert           = require('assert');
 const _                = require('lodash');
 const debug            = require('debug')('tests:generateFullExperience')
-const unifierInterface = require('../../unifier/unifier');
-const plugins          = require('../../unifier/plugins/index');
+const dittoInterface = require('../../ditto/ditto');
+const plugins          = require('../../ditto/plugins/index');
 
 describe('generateFullExperience', function(){
     const testMappings = {
@@ -21,7 +21,7 @@ describe('generateFullExperience', function(){
                 }
             }
         };
-        return new unifierInterface().unify(testData, testMappings).then((result) => {
+        return new dittoInterface().unify(testData, testMappings).then((result) => {
             debug({result});
             assert.equal(result.organisationId, null);
         });
@@ -36,7 +36,7 @@ describe('generateFullExperience', function(){
                 }
             }
         };
-        return new unifierInterface().unify(testData, testMappings).then((result) => {
+        return new dittoInterface().unify(testData, testMappings).then((result) => {
             debug({result});
             assert.equal(result.organisationName, void 0);
             assert.equal(result.organisationId, void 0);
