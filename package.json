@@ -15,7 +15,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "URI": "git+https://github.com:BeameryHQ/URI.git",
+    "beam-uri": "^2.1.0",
     "crypto": "0.0.3",
     "humanparser": "1.1.1",
     "joi": "^9.0.4",

@@ -2,7 +2,7 @@
 
 const Joi     = require('joi');
 const URL     = require('url');
-const urlUtils = require('URI');
+const urlUtils = require('beam-uri');
 
 /**
  * @function getLinkService

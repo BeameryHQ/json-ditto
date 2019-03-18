@@ -1,7 +1,7 @@
 'use strict';
 
 const URL      = require('url');
-const urlUtils = require('URI');
+const urlUtils = require('beam-uri');
 
 const BANNED_URLS = [
   "linkedin.com/profile/view",

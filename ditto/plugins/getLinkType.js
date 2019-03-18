@@ -2,7 +2,7 @@
 
 const _        = require('lodash');
 const URL      = require('url');
-const urlUtils = require('URI');
+const urlUtils = require('beam-uri');
 
 /**
  * @function getLinkType
