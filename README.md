@@ -1,6 +1,16 @@
 # Ditto
 
-JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. When dealing with data integration problems, the need to translate JSON from external formats to adhere to an internal representation become a vital task. Ditto was created to solve the issue of unifying external data representation. Ditto needs to have a defined `.json` mapping file and exposes a Class to be implemented each service. Ditto will parse the mapping file and convert an existing JSON to match the rules defined in the mapping file.
+JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. When dealing with data integration problems, the need to translate JSON from external formats to adhere to an internal representation become a vital task. Ditto was created to solve the issue of unifying external data representation. 
+
+Ditto parses a mapping file (see [mapping rules](https://github.com/BeameryHQ/Ditto#mapping-rules)) and produces a JSON output from the input data to match the output definition. Ditto has three main mapping steps as shown in the diagram below where the output of each step is fed as input to the next one:
+
+ - **_preMap**: Start the pre-mapping process which runs before the main mapping process to transform the input data
+ - **_map**: Start the unification process based on the manual mapping files. This is the step where the mapping file is read and the data is mapped accordingly
+ - **_postMap**: Start the post-mapping process which will run after the main mapping is done and transform the mapping result (output)
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/550726/54499781-810c9a00-490d-11e9-9003-54259ba1dd99.png">
+</p>
 
 # How to use Ditto
 
@@ -46,26 +56,13 @@ Add extra set of plugins to the default ones
 | --- | --- | --- |
 | plugins | <code>Object</code> | the extra plugins passed to be added to the default set of Ditto plugins |
 
-Ditto performs four main steps in sequence, where the output of each step is fed as input to the next one. Those steps are:
-
- - **_preMap**: Start the pre-mapping process which runs before the main mapping process
- - **_map**: Start the unification process based on the manual mapping files. This is the step where the mapping file is read and the data is mapped accordingly
- - **_postMap**: Start the post-mapping process which will run after the main mapping is done
- - **_extraMap**: Start any extra mapping functions that are specific to each service. This is needed as the postMap function can be thought of a global post-map set of functions
-
-All those steps have an identical function signature:
-
-| Param | Type | Description |
-| --- | --- | --- |
-| result | `Object` | the object representing the result file |
-
-### `_map`
+## `_map`
 
 The `_map` function is the main processing step. It takes in the mapping file and processes the rules inside to transform the input object.
 
 The mapping file has to be defined with specific rules that abide with main mapping function. The mapping function contains the following methods:
 
-#### processMappings(document, result, mappings)
+### processMappings(document, result, mappings)
 
 Process the mappings file and map it to the actual values. It is the entry point to parse the mapping and input files.
 
@@ -76,7 +73,7 @@ Process the mappings file and map it to the actual values. It is the entry point
 | mappings | `Object` | the object presenting the mappings between target document and mapped one |
 
 
-#### applyTransformation(path, key)
+### applyTransformation(path, key)
 
 Apply a transformation function on a path. A transformation is a function that is defined in the mapping file with the `@` symbol and is declared in the `plugins` folder.
 
@@ -119,7 +116,7 @@ function concatName() {
 }
 ```
 
-#### Functions in Functions
+### Functions in Functions
 
 Sometimes you may want to pass the value of a function into another function as a parameter. You can do this easily by calling the function name inside the arguments. However, an important to thing to note is that inner function calls, if they contain more than one parameter, then the paramteres have to be separated by a comma `,` rather than the traditional `|`.
 
@@ -130,7 +127,7 @@ Examples:
 "value"  : "@cleanURI(value|@getLinkType(value,@getLinkService(value,service)))",
 ```
 
-#### Plugins Activation
+### Plugins Activation
 
 The plugins are activated in the `/ditto/plugins/plugins.js` file by adding the plugin name (corresponds exactly to the file name `.js` of the definition) in the `plugins` array.
 The plugin will be reuqired and exported to be used in the main `mapping` function in the interface.
@@ -145,7 +142,7 @@ module.exports = {
 	....
 ```
 
-#### getValue(path) ⇒ `Object`
+### getValue(path) ⇒ `Object`
 
 **Returns**: `Object` - result the object representing the result file
 
@@ -169,7 +166,7 @@ The formats acceptable by the `getValue` are:
 - Contains `??`: This means that we are applying a condition before we assign the value
 - Contains `*`: If appended before the last parameter, this acts as a default value for the function and the value of that value will be assigned automatically
 
-#### Conditional Assignment
+### Conditional Assignment
 
 Conditional assignment is what happens when a `??` is present in the mapping path. This is very useful as it restricts assigning the value unless a condition is met.
 
