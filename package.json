@@ -29,6 +29,7 @@
     "jest": "^24.3.1",
     "mocha": "^5.2.0",
     "mocha-performance": "^0.1.1",
-    "mocha-sonar-reporter": "^0.1.6"
+    "mocha-sonar-reporter": "^0.1.6",
+    "static-server": "^2.2.1"
   }
 }
