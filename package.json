@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha test/index.js",
     "performance": "node --allow-natives-syntax ./node_modules/mocha/bin/_mocha --reporter mocha-performance ./test/index.js",
-    "cover": "NODE_ENV=test istanbul cover _mocha -- -R spec test/index.js | static-server -p 3222 coverage/lcov-report/",
+    "cover": "NODE_ENV=test istanbul cover _mocha -- -R spec test/index.js",
     "lint": "eslint ."
   },
   "repository": {
