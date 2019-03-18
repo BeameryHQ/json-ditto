@@ -42,14 +42,8 @@ jobs:
               ./cc-test-reporter before-build
               npm run cover
               ./cc-test-reporter after-build --coverage-input-type lcov coverage/lcvo.info --exit-code $?
-  deploy:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
       - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
-      - run:
-          name: Publish package
-          command: npm publish
+          name: NPM Deploy
+          command: |
+              echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
+              npm publish
