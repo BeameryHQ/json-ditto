@@ -39,4 +39,4 @@ jobs:
               sudo npm install -g istanbul
               ./cc-test-reporter before-build
               npm run cover
-              ./cc-test-reporter after-build --coverage-input-type /home/circleci/repo/coverage/coverage.json --exit-code $?
+              ./cc-test-reporter after-build --coverage-input-type lcov coverage/lcvo.info --exit-code $?
