@@ -36,6 +36,7 @@ jobs:
       - run:
           name: Run coverage
           command: |
+              npm install -g istanbul
               ./cc-test-reporter before-build
               npm run cover
               ./cc-test-reporter after-build --coverage-input-type coverage/lcvo.info --exit-code $?
