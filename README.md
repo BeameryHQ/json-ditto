@@ -1,13 +1,13 @@
 
 [![NPM](https://nodei.co/npm/json-ditto.png?downloads=true)](https://npmjs.org/package/json-ditto)
 
-![David](https://img.shields.io/david/BeameryHQ/json-ditto.svg)
-![David](https://img.shields.io/david/dev/BeameryHQ/json-ditto.svg)
-![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/json-ditto.svg)
-![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/BeameryHQ/Ditto.svg)
-![Code Climate coverage](https://img.shields.io/codeclimate/coverage/BeameryHQ/Ditto.svg)
+[![David](https://img.shields.io/david/BeameryHQ/json-ditto.svg)](https://david-dm.org/BeameryHQ/json-ditto)
+[![David](https://img.shields.io/david/dev/BeameryHQ/json-ditto.svg)](https://david-dm.org/BeameryHQ/json-ditto)
+[![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/json-ditto.svg)](https://snyk.io/test/github/BeameryHQ/Ditto?targetFile=package.json)
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/BeameryHQ/Ditto.svg)](https://codeclimate.com/github/BeameryHQ/Ditto/)
+[![Code Climate coverage](https://img.shields.io/codeclimate/coverage/BeameryHQ/Ditto.svg)](https://codeclimate.com/github/BeameryHQ/Ditto/)
 [![Try json-ditto on RunKit](https://badge.runkitcdn.com/json-ditto.svg)](https://runkit.com/ahmadassaf/json-ditto)
-![CircleCI (all branches)](https://img.shields.io/circleci/project/github/BeameryHQ/json-ditto.svg?style=flat)
+[![CircleCI (all branches)](https://img.shields.io/circleci/project/github/BeameryHQ/json-ditto.svg?style=flat)](https://circleci.com/gh/BeameryHQ/json-ditto)
 
 # Ditto
 
