@@ -1,6 +1,6 @@
 {
   "name": "json-ditto",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "JSON shape-shifter 👻 | Easily map your JSON formats",
   "main": "ditto/ditto.js",
   "scripts": {
