@@ -4,7 +4,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/BeameryHQ/Ditto/badge.svg?targetFile=package.json)](https://snyk.io/test/github/BeameryHQ/Ditto?targetFile=package.json)
 [![Maintainability](https://api.codeclimate.com/v1/badges/adef9831bce81d0d999e/maintainability)](https://codeclimate.com/github/BeameryHQ/Ditto/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/adef9831bce81d0d999e/test_coverage)](https://codeclimate.com/github/BeameryHQ/Ditto/test_coverage)
-[![CircleCI](https://circleci.com/gh/BeameryHQ/Ditto.svg?style=svg)](https://circleci.com/gh/BeameryHQ/Ditto)
+[![CircleCI](https://circleci.com/gh/BeameryHQ/json-ditto.svg?style=svg)](https://circleci.com/gh/BeameryHQ/json-ditto)
 
 # Ditto
 
