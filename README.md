@@ -1,14 +1,14 @@
 
-![npm](https://nodei.co/npm/json-ditto.png?downloads=true)
+[![NPM](https://nodei.co/npm/json-ditto.png?downloads=true)](https://npmjs.org/package/json-ditto)
 
 [![Known Vulnerabilities](https://snyk.io/test/github/BeameryHQ/Ditto/badge.svg?targetFile=package.json)](https://snyk.io/test/github/BeameryHQ/Ditto?targetFile=package.json)
 [![Maintainability](https://api.codeclimate.com/v1/badges/adef9831bce81d0d999e/maintainability)](https://codeclimate.com/github/BeameryHQ/Ditto/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/adef9831bce81d0d999e/test_coverage)](https://codeclimate.com/github/BeameryHQ/Ditto/test_coverage)
 [![CircleCI](https://circleci.com/gh/BeameryHQ/Ditto.svg?style=svg)](https://circleci.com/gh/BeameryHQ/Ditto)
-	
+
 # Ditto
 
-JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. When dealing with data integration problems, the need to translate JSON from external formats to adhere to an internal representation become a vital task. Ditto was created to solve the issue of unifying external data representation. 
+JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. When dealing with data integration problems, the need to translate JSON from external formats to adhere to an internal representation become a vital task. Ditto was created to solve the issue of unifying external data representation.
 
 Ditto parses a mapping file (see [mapping rules](https://github.com/BeameryHQ/Ditto#mapping-rules)) and produces a JSON output from the input data to match the output definition. Ditto has three main mapping steps as shown in the diagram below where the output of each step is fed as input to the next one:
 
