@@ -3,6 +3,7 @@
 module.exports = {
     "firstName" : "Ahmad",
     "lastName": "Assaf",
+    "middleName": "Ahmad",
     "email" : "ahmad.a.assaf@gmail.com",
     "title": "Data Scientist",
     "company": "Beamery",
@@ -83,6 +84,13 @@ module.exports = {
             "companyName": "SAP",
             "title": "Associate Researcher",
             "current": false
+        }
+    ],
+    "volunteer": [
+        {
+            "organisation": "PandaBear",
+            "title": "Volunteer",
+            "years": 5
         }
     ],
     "json": {

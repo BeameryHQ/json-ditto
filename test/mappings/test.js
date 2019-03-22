@@ -1,36 +1,37 @@
 'use strict';
 
 module.exports = {
-	"name"                    : "firstName",
-	"default_name"            : "nonExistingProperty||>>this_should_be_the_firstName",
-	"nickname"                : "nickname||>>nickname_not_found",
-	"isNickNameFound"         : "nickname||>>%false",
-    "isDynamicDefault"        : "nickname||firstName",
-	"fullName"                : "@concatName(firstName|lastName)",
-	"fullNameDefault"         : "@concatName(firstName|*!fullName)",
+    "name": "firstName",
+    "default_name": "nonExistingProperty||>>this_should_be_the_firstName",
+    "nickname": "nickname||>>nickname_not_found",
+    "isNickNameFound": "nickname||>>%false",
+    "isDynamicDefault": "nickname||firstName",
+    "fullName": "@concatName(firstName|middleName|lastName)",
 	"fullNameDefaultHardcoded": "@concatName(firstName|lastName|*>>default)",
-	"completeName"            : "@concatName(firstName|!fullName)",
-	"displayName"             : "!fullName",
+    "fullName_withNotFoundMiddle": "@concatName(firstName|fullName.middleName|lastName)",
+    "fullNameDefault": "@concatName(firstName|*!fullName_withNotFoundMiddle)",
+    "completeName": "@concatName(firstName|!fullName)",
+    "displayName": "!fullName",
     "email": {
         "value": "email"
     },
     "links": "links",
     "social_links": [{
-        "output"       : [],
+        "output": [],
         "innerDocument": "!links",
         "required": ["value"],
-        "mappings"     : {
+        "mappings": {
             "value": "$value",
             "type": ">>test",
             "order": "$key",
             "social": ">>%true"
         }
-    },{
-        "output"       : [],
+    }, {
+        "output": [],
         "innerDocument": "social",
         "required": ["value"],
-        "mappings"     : {
-            "value"  : "value",
+        "mappings": {
+            "value": "value",
             "service": "service",
             "type": ">>social"
         }
@@ -70,26 +71,26 @@ module.exports = {
         "prerequisite": "!!innerResult.value",
         "mappings": {
             "service": "@getLinkService(value|service)",
-            "type"   : "@getLinkType(value|@getLinkService(value,service))",
-            "value"  : "@cleanURI(value|@getLinkType(value,@getLinkService(value,service)))??@getLinkType(value|@getLinkService(value,service))#==#>>messaging"
+            "type": "@getLinkType(value|@getLinkService(value,service))",
+            "value": "@cleanURI(value|@getLinkType(value,@getLinkService(value,service)))??@getLinkType(value|@getLinkService(value,service))#==#>>messaging"
         }
     },
     "social_links_objects": {
-        "output"       : {},
+        "output": {},
         "innerDocument": "!links",
         "key": "@generateId($value)",
-        "mappings" : {
+        "mappings": {
             "value": "$value"
         }
     },
     "experience_primary": {
         "values": {
-            "output"       : {},
+            "output": {},
             "innerDocument": "!",
-            "key"          : "@generateId(title|company)",
-            "mappings"     : {
-		            "id"              : "@generateId(title|company)",
-                "role"            : "title",
+            "key": "@generateId(title|company)",
+            "mappings": {
+                "id": "@generateId(title|company)",
+                "role": "title",
                 "organisationName": "company"
             }
         }
@@ -98,10 +99,10 @@ module.exports = {
         "output": [],
         "innerDocument": "work",
         "mappings": {
-            "name"     : "companyName",
-            "role"     : "title",
+            "name": "companyName",
+            "role": "title",
             "startDate": "@parseDate(startDate)",
-            "current"  : "current"
+            "current": "current"
         }
     },
     "primaryExperience": "!experience[0]",
@@ -117,13 +118,18 @@ module.exports = {
             "innerDocument": "work",
             "key": "@generateId(companyName|title)",
             "mappings": {
-				"id": "@generateId(companyName|title)",
+                "id": "@generateId(companyName|title)",
                 "name": "companyName",
                 "role": "title",
                 "startDate": "startDate",
                 "current": "current"
             }
         }
+    },
+    "volunteer": {
+        "output": [],
+        "innerDocument": "volunteer",
+        "value": "@concatName(organisation|>> at |title)"
     },
     "education": {
         "output": [],
@@ -144,5 +150,5 @@ module.exports = {
             "universityName": "universityName"
         }
     },
-    "primaryPhoto": "@createURL(>>http://photo.com/|!fullName)"
+    "primaryPhoto": "@createURL(>>http://photo.com/|!fullNameDefault)"
 }

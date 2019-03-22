@@ -51,7 +51,11 @@ describe('ditto Interface', function(){
     });
 
     it('should be able to assign a new value based on an already mapped one', function(){
-        assert.strictEqual(this.result.displayName, "Ahmad Assaf");
+        assert.strictEqual(this.result.displayName, "Ahmad Ahmad Assaf");
+    });
+
+    it('should be able to allow for duplicate values without flattening/compacting them', function(){
+        assert.strictEqual(this.result.fullName, "Ahmad Ahmad Assaf");
     });
 
     it('should be able to apply a condition on an output path', function(){

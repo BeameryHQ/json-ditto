@@ -6,11 +6,12 @@ module.exports = {
   "nickname": "nickname_not_found",
   "isNickNameFound": false,
   "isDynamicDefault": "Ahmad",
-  "fullName": "Ahmad Assaf",
+  "fullName": "Ahmad Ahmad Assaf",
   "fullNameDefault": "Ahmad Assaf",
   "fullNameDefaultHardcoded": "default",
-  "completeName": "Ahmad Ahmad Assaf",
-  "displayName": "Ahmad Assaf",
+  "fullName_withNotFoundMiddle"     : "Ahmad Assaf",
+  "completeName": "Ahmad Ahmad Ahmad Assaf",
+  "displayName": "Ahmad Ahmad Assaf",
   "email": {
     "value": "ahmad.a.assaf@gmail.com"
   },

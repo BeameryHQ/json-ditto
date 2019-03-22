@@ -33,9 +33,7 @@ async function map(document, mappings, plugins) {
             // here we check for that and construct the appropriate document and mappings objects to deal with it
             if (_.isArray(path)) {
                 _.each(path, function(subPath){
-                    var subMapping = {};
-                    subMapping[key] = subPath;
-                    return processMappings(subMapping, document, result);
+                    return processMappings({[key]: subPath}, document, result);
                 });
             }
 
@@ -143,7 +141,7 @@ async function map(document, mappings, plugins) {
                  * the function name is anything after the @ and the () if exists
                  * the paramteres are anything inside the () separated by a |
                  */
-                let paramteresArray, paramteresValues = [];
+                let paramteresValues = [];
 
                 // Regular expression to extract any text between ()
                 let functionParameteres  = path.match(/.+?\((.*)\)/);
@@ -154,13 +152,14 @@ async function map(document, mappings, plugins) {
                 if (!!functionParameteres) {
 
                     // We need to check if the function parameters have inlined functions that we need to execute
-                    paramteresArray = _.compact(functionParameteres[1].split('|'));
+                    const paramteresArray = _.compact(functionParameteres[1].split('|'));
+                    const _defaultValue = applyTransformation(key, _.last(paramteresArray).replace('*', '').replace(',', '|'), $key, $value);
 
-                    if (_.last(paramteresArray).includes('*') && !! applyTransformation(key, _.last(paramteresArray).replace('*', '').replace(',', '|'), $key, $value)) {
-                        return applyTransformation(key, _.last(paramteresArray).replace('*', '').replace(',', '|'), $key, $value)
+                    if ( _.last(paramteresArray).includes('*') && !!_defaultValue) {
+                        return _defaultValue;
                     } else {
                         // we compact the array here to remove any undefined objects that are not caught by the _.get in the map function
-                        paramteresValues = _.union(paramteresValues, _.map(paramteresArray, function(param){ return _.startsWith(param, '$') ? eval(param) : applyTransformation(key, param.replace(',', '|'), $key, $value) }));
+                        paramteresValues = _.map(paramteresArray, function(param){ return applyTransformation(key, param.replace(',', '|'), $key, $value) });
                     }
                 }
 
@@ -171,7 +170,7 @@ async function map(document, mappings, plugins) {
 
                 // Only execute the function if the parameters array is not empty
                 if (!!_.compact(paramteresValues).length && plugins[functionCall]) {
-                    return plugins[functionCall].apply(null, paramteresValues);
+                    return plugins[functionCall](...paramteresValues);
                 }
 
             } else return getValue(path, $value);
@@ -203,7 +202,9 @@ async function map(document, mappings, plugins) {
 
             if (path === '!') return document;
 
-            if (_.startsWith(path, '>>')) {
+            if (_.startsWith(path, '$')) {
+                return eval(path);
+            } else if (_.startsWith(path, '>>')) {
                 return _.startsWith(path, '>>%') ? eval(path.replace('>>%', '')) : path.replace('>>', '');
             } else if (_.startsWith(path, '!')) {
                 return _.get(result, path.replace('!', ''));
@@ -216,9 +217,12 @@ async function map(document, mappings, plugins) {
                     path.match(/(.+?)\?\?(.+?)\#(.*)\#(.+)/));
 
                 // Run a comparison between the values, and if fails skip the current data
-                const firstValue = applyTransformation('', parameters.comparator, '', JSON.stringify(subDocument));
-                const secondValue = applyTransformation('', parameters.condition, '', JSON.stringify(subDocument))
-                let isValidValue = operation(parameters.comparison, firstValue, secondValue);
+                const firstValue = applyTransformation(null, parameters.comparator, null, JSON.stringify(subDocument));
+                const secondValue = applyTransformation(null, parameters.condition, null, JSON.stringify(subDocument));
+
+                console.log("parameters", parameters);
+                const comparison = parameters.comparison.startsWith('!') ? '!==' : '===';
+                const isValidValue = operation(parameters.comparison, firstValue, secondValue);
 
                 return isValidValue ? applyTransformation(null, parameters.targetValue, null, subDocument) : null;
             } else {
@@ -233,7 +237,7 @@ async function map(document, mappings, plugins) {
              * @param {*} value1
              * @param {*} value2
              */
-            function operation(op, value1, value2){
+            function operation(op, value1, value2) {
                 switch(op){
                     case '===':
                         return value1 === value2;
