@@ -1,4 +1,5 @@
 const _  = require('lodash');
+const Transformer = require('./lib/transform');
 
 /**
  * @function map
@@ -9,143 +10,64 @@ const _  = require('lodash');
  */
 async function map(document, mappings, plugins) {
 
+    const transformer = new Transformer(plugins);
     function processMappings(document, mappings, output, options = {isIterable: false}) {
+
         if (!mappings) return document;
+
         else if (options.isIterable) {
-            let _output = [];
-            _.each(document, (_document, key) => {
-                _output.push(processMappings(_document, mappings, output, {isIterable: false, key}));
+            return _.map(document, (_document, key) => {
+                return processMappings(_document, mappings, output, {isIterable: false, key});
             });
-            return _output;
         } else if (typeof mappings === 'string') {
-            return applyTransformation(document, mappings, output, _.get(options, 'key', null));
+            return transformer.transform(document, mappings, output, _.get(options, 'key'));
         } else if (mappings.hasOwnProperty('output')) {
-            let _document, _output, options = {};
+            let _output, options = {};
             if (mappings.hasOwnProperty('innerDocument')) {
-                _document = _.get(document, mappings.innerDocument.replace(/.\*/, ''), null);
                 options['isIterable'] = true;
             }
-            _output = processMappings(_document || document, mappings.mappings, output, options);
+            _output = processMappings(_.get(document, mappings.innerDocument, document), mappings.mappings, output, options);
             if (mappings.hasOwnProperty('required')) {
-                mappings.required.forEach(_required => {
-                    _output = _output.filter(_result => {
-                        return !!_result[_required];
-                    });
-                });
+                _output = _.last(_.map(mappings.required, _required => { return _.filter(_output, _required) }));
             }
             if (_.isPlainObject(mappings.output)) {
-                let keys = [];
-                _output = Array.isArray(_output) ? _output : [_output];
-                _output.forEach(element => { keys.push(element.$$key) && delete element['$$key'] });
-                _output = _.zipObject(keys, _output);
+                const __output = _.flattenDeep([_output]);
+                _output = _.zipObject(_.map(__output, $ => { return $.$$key}), __output);
             }
             if (mappings.hasOwnProperty('$push')) {
                 _output = _output.map($ => {return $.$value})
             }
+
             return _output;
+
         } else {
             const output = {};
             const reducer = (input, fn) => {
                 return _.reduce(input,(accumulator, currentValue) => fn(accumulator,currentValue))
-            };
-            _.each(mappings, (value, key) => {
-                if (mappings.hasOwnProperty(key)) {
-                    let _output = processMappings(document, value, output, options);
-                    if (Array.isArray(value)) {
-                        _output = Array.isArray(value[0].output) ? reducer(_output, _.concat) : reducer(_output, _.merge);
+            }
+            _.each(mappings, (mapping, path) => {
+                if (mappings.hasOwnProperty(path)) {
+                    if (mapping.hasOwnProperty('key')) {
+                        mapping.mappings['$$key'] = mapping.key;
                     }
-                    if (value.hasOwnProperty('requirements')) {
-                        _.each(value.requirements, requirement => {
-                            _output = applyTransformation(_output, requirement);
+                    let _output = processMappings(document, mapping, output, options);
+                    if (Array.isArray(mapping)) {
+                        _output = Array.isArray(mapping[0].output) ? reducer(_output, _.concat) : reducer(_output, _.merge);
+                    }
+                    if (mapping.hasOwnProperty('requirements')) {
+                        _.each(mapping.requirements, requirement => {
+                            _output = transformer.transform(_output, requirement);
                         });
                     }
-                    if (!_.isNil(_output)) output[key] = _output;
+
+                    if (!_.isNil(_output)) output[path] = _output;
                 }
             });
+
             return output;
         }
-
-        function applyTransformation(document, path, output, $key) {
-            if (path.includes('??'))  {
-                return getValue(document, path, output);
-            } else if (_.startsWith(path, '$'))  {
-                return eval(path);
-            } else if (_.startsWith(path, '@!')) {
-                return eval(path.replace('@!', ''));
-            } else if (_.startsWith(path, '@')) {
-
-                let paramteresValues = [];
-
-                let functionParameteres  = path.match(/.+?\((.*)\)/);
-                let functionCall         = path.split('(')[0].replace('@', '');
-                if (!!functionParameteres) {
-
-                    const paramteresArray = _.compact(functionParameteres[1].split('|'));
-                    const _defaultValue = applyTransformation(document, _.last(paramteresArray).replace('*', '').replace(',', '|'), output, $key);
-
-                    if ( _.last(paramteresArray).includes('*') && !!_defaultValue) {
-                        return _defaultValue;
-                    } else {
-                        paramteresValues = _.map(paramteresArray, function(param){ return applyTransformation(document, param.replace(',', '|'), output, $key) });
-                    }
-                }
-
-                if (!!_.compact(paramteresValues).length && plugins[functionCall]) {
-                    return plugins[functionCall](...paramteresValues);
-                }
-
-            } else return getValue(document, path, output);
-        }
-
-        function getValue(document, path, output) {
-            if (!path) return;
-
-            if (path === '!') {
-                return document;
-            }
-
-            if (_.startsWith(path, '$')) {
-                return eval(path);
-            } else if (_.startsWith(path, '>>')) {
-                return _.startsWith(path, '>>%') ? eval(path.replace('>>%', '')) : path.replace('>>', '');
-            } else if (_.startsWith(path, '!')) {
-                return _.get(output, path.replace('!', ''));
-            } else if (/\|\|/.test(path) && !path.includes('??') ) {
-                let pathWithDefault = path.split(/\|\|/);
-                return getValue(document, pathWithDefault[0]) || getValue(document, `${pathWithDefault[1]}`);
-            } else if (path.includes('??') ){
-                let parameters = _.zipObject(['source', 'targetValue', 'comparator', 'comparison', 'condition'],
-                    path.match(/(.+?)\?\?(.+?)\#(.*)\#(.+)/));
-
-                const firstValue = applyTransformation(document, parameters.comparator, output);
-                const secondValue = applyTransformation(document, parameters.condition, output);
-                const isValidValue = operation(parameters.comparison, firstValue, secondValue);
-                return isValidValue ? applyTransformation(document, parameters.targetValue, output) : null;
-            } else {
-                return _.get(document, path);
-            }
-
-            /**
-             * Runs a comparison ( === , ==, !==, != ) against the given values
-             * @param {string} op
-             * @param {*} value1
-             * @param {*} value2
-             */
-            function operation(op, value1, value2) {
-                switch(op){
-                    case '===':
-                        return value1 === value2;
-                    case '==':
-                        return value1 == value2;
-                    case '!==':
-                        return value1 !== value2;
-                    case '!=':
-                        return value1 != value2;
-                }
-                return false;
-            }
-        }
     }
+
     return processMappings(document, mappings);
 }
 

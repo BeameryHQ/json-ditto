@@ -20,8 +20,8 @@ module.exports = {
         "output": {},
         "innerDocument": "links",
         "required": ["value"],
+        "key": "!",
         "mappings": {
-            "$$key": "!",
             "value": "!",
             "type": ">>test",
             "order": "$key",
@@ -31,8 +31,8 @@ module.exports = {
         "output": {},
         "innerDocument": "social",
         "required": ["value"],
+        "key": "value",
         "mappings": {
-            "$$key": "value",
             "value": "value",
             "service": "service",
             "type": ">>social"
@@ -60,7 +60,7 @@ module.exports = {
     }],
     "messaging": {
         "output": [],
-        "innerDocument": "linksv2.values.*",
+        "innerDocument": "linksv2.values",
         "required": ["value"],
         "mappings": {
             "service": "@getLinkService(value|service)",
@@ -70,7 +70,7 @@ module.exports = {
     },
     "website_addresses_keyless": {
         "output": [],
-        "innerDocument": "linksv2.values.*",
+        "innerDocument": "linksv2.values",
         "required": ["value"],
         "mappings": {
             "value": "value??type#==#>>website",
@@ -79,11 +79,11 @@ module.exports = {
     },
     "website_addresses": {
         "output": {},
-        "innerDocument": "linksv2.values.*",
+        "innerDocument": "linksv2.values",
         "required": ["value"],
         "prerequisite": "!!innerResult.value && !!innerResult.keys && !!innerResult.keys.length",
+        "key": "id",
         "mappings": {
-            "$$key": "id",
             "value": "value??keys[0]#==#>>f5e32a6faaa7ead6ba201e8fa25733ee",
             "type": ">>other",
             "keys": "keys"
@@ -91,7 +91,7 @@ module.exports = {
     },
     "social_media_addresses": {
         "output": [],
-        "innerDocument": "linksv2.values.*",
+        "innerDocument": "linksv2.values",
         "required": ["value"],
         "requirements": ["@uniqueArray(!|>>value)"],
         "mappings": {
@@ -101,8 +101,8 @@ module.exports = {
     "social_links_objects": {
         "output": {},
         "innerDocument": "links",
+        "key": "@generateId(!)",
         "mappings": {
-            "$$key": "@generateId(!)",
             "value": "!"
         }
     },
@@ -119,8 +119,8 @@ module.exports = {
     "experience_primary": {
         "values": {
             "output": {},
+            "key": "@generateId(title|company)",
             "mappings": {
-                "$$key": "@generateId(title|company)",
                 "id": "@generateId(title|company)",
                 "role": "title",
                 "organisationName": "company"
@@ -141,8 +141,8 @@ module.exports = {
         "values": {
             "output": {},
             "innerDocument": "work",
+            "key": "@generateId(companyName|title)",
             "mappings": {
-                "$$key": "@generateId(companyName|title)",
                 "id": "@generateId(companyName|title)",
                 "name": "companyName",
                 "role": "title",
@@ -153,7 +153,7 @@ module.exports = {
     },
     "education": {
         "output": [],
-        "innerDocument": "json.education.*",
+        "innerDocument": "json.education",
         "mappings": {
             "universityName": "$key",
             "degree": "degree",
@@ -162,9 +162,9 @@ module.exports = {
     },
     "education_object": {
         "output": {},
-        "innerDocument": "json.education.*",
+        "innerDocument": "json.education",
+        "key": "@generateId($key|degree)",
         "mappings": {
-            "$$key": "@generateId($key|degree)",
             "degree": "degree",
             "location": "location",
             "universityName": "universityName"
