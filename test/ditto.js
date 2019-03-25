@@ -32,7 +32,7 @@ describe('ditto Interface', function(){
         });
     });
 
-    it.only('should be able to map an object with a direct flat mapping', function(){
+    it('should be able to map an object with a direct flat mapping', function(){
         assert.strictEqual(this.result.name, dummyResult.name);
     });
 

@@ -40,12 +40,15 @@ async function map(document, mappings, plugins) {
                 _output.forEach(element => { keys.push(element.$$key) && delete element['$$key'] });
                 _output = _.zipObject(keys, _output);
             }
+            if (mappings.hasOwnProperty('$push')) {
+                _output = _output.map($ => {return $.$value})
+            }
             return _output;
         } else {
             const output = {};
             _.each(mappings, (value, key) => {
                 if (mappings.hasOwnProperty(key)) {
-                    let _output = processMappings(document, value, output);
+                    let _output = processMappings(document, value, output, options);
                     output[key] = _output;
                 }
             });
@@ -53,9 +56,6 @@ async function map(document, mappings, plugins) {
         }
 
         function applyTransformation(document, path, output, $key) {
-            // console.log("APPLY TRANSFORMATIOM =====>");
-            // console.log("document", document);
-            // console.log("path", path);
             if (path.includes('??'))  {
                 return getValue(document, path, output);
             } else if (_.startsWith(path, '$'))  {
