@@ -15,20 +15,14 @@ describe('ditto Interface', function(){
     let dummyMappings = require('./mappings/test');
 
     let dummyPlugin   = {
-      transformTwitterHandle: function transformTwitterHandle(target){
-        _.each(target, function(link){
-          link.value = "@ahmadaassaf"
-        });
-        return target;
+      transformTwitterHandle: (target) => {
+          return `@${target.match(/^https?:\/\/(www\.)?twitter\.com\/(#!\/)?([^\/]+)(\/\w+)*$/)[3]}`
       }
     };
 
     before(function(){
         return new ditto(dummyMappings, dummyPlugin).unify(dummySample).then((result) => {
             this.result = result;
-            console.log("*********************");
-            console.log("\n\noutput\n\n", JSON.stringify(result, null, 2));
-            console.log("*********************");
         });
     });
 

@@ -93,9 +93,9 @@ module.exports = {
         "output": [],
         "innerDocument": "linksv2.values.*",
         "required": ["value"],
-        "requirements": ["@uniqueArray(social_media_addresses|>>value)", "@transformTwitterHandle(value)"],
+        "requirements": ["@uniqueArray(!|>>value)"],
         "mappings": {
-            "value": "value??type#==#>>social"
+            "value": "@transformTwitterHandle(value)??service#==#>>twitter"
         }
     },
     "social_links_objects": {

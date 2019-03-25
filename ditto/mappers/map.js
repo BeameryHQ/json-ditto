@@ -1,5 +1,4 @@
 const _  = require('lodash');
-const assert = require('assert');
 
 /**
  * @function map
@@ -47,14 +46,20 @@ async function map(document, mappings, plugins) {
         } else {
             const output = {};
             const reducer = (input, fn) => {
-                return _.reduceRight(input,(accumulator, currentValue) => fn(accumulator,currentValue))
+                return _.reduce(input,(accumulator, currentValue) => fn(accumulator,currentValue))
             };
             _.each(mappings, (value, key) => {
                 if (mappings.hasOwnProperty(key)) {
                     let _output = processMappings(document, value, output, options);
                     if (Array.isArray(value)) {
-                        output[key] = Array.isArray(value[0].output) ? reducer(_output, _.concat) : reducer(_output, _.merge);
-                    } else output[key] = _output;
+                        _output = Array.isArray(value[0].output) ? reducer(_output, _.concat) : reducer(_output, _.merge);
+                    }
+                    if (value.hasOwnProperty('requirements')) {
+                        _.each(value.requirements, requirement => {
+                            _output = applyTransformation(_output, requirement);
+                        });
+                    }
+                    if (!_.isNil(_output)) output[key] = _output;
                 }
             });
             return output;
@@ -73,16 +78,15 @@ async function map(document, mappings, plugins) {
 
                 let functionParameteres  = path.match(/.+?\((.*)\)/);
                 let functionCall         = path.split('(')[0].replace('@', '');
-
                 if (!!functionParameteres) {
 
                     const paramteresArray = _.compact(functionParameteres[1].split('|'));
-                    const _defaultValue = applyTransformation(document, _.last(paramteresArray).replace('*', '').replace(',', '|'), output);
+                    const _defaultValue = applyTransformation(document, _.last(paramteresArray).replace('*', '').replace(',', '|'), output, $key);
 
                     if ( _.last(paramteresArray).includes('*') && !!_defaultValue) {
                         return _defaultValue;
                     } else {
-                        paramteresValues = _.map(paramteresArray, function(param){ return applyTransformation(document, param.replace(',', '|'), output) });
+                        paramteresValues = _.map(paramteresArray, function(param){ return applyTransformation(document, param.replace(',', '|'), output, $key) });
                     }
                 }
 
@@ -115,7 +119,6 @@ async function map(document, mappings, plugins) {
 
                 const firstValue = applyTransformation(document, parameters.comparator, output);
                 const secondValue = applyTransformation(document, parameters.condition, output);
-
                 const isValidValue = operation(parameters.comparison, firstValue, secondValue);
                 return isValidValue ? applyTransformation(document, parameters.targetValue, output) : null;
             } else {

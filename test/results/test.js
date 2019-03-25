@@ -49,6 +49,36 @@ module.exports = {
     "service": "twitter",
     "type": "social"
   }],
+  "social_links_objectified": {
+    "http://a.com": {
+      "value": "http://a.com",
+      "type": "test",
+      "order": 0,
+      "social": true
+    },
+    "http://b.com": {
+      "value": "http://b.com",
+      "type": "test",
+      "order": 1,
+      "social": true
+    },
+    "http://c.com": {
+      "value": "http://c.com",
+      "type": "test",
+      "order": 2,
+      "social": true
+    },
+    "http://github.com/ahmadassaf": {
+      "value": "http://github.com/ahmadassaf",
+      "service": "github",
+      "type": "social"
+    },
+    "http://twitter.com/ahmadaassaf": {
+      "value": "http://twitter.com/ahmadaassaf",
+      "service": "twitter",
+      "type": "social"
+    }
+  },
   "website_addresses_keyless": [{
     "value": "https://gravatar.com/ahmadassaf",
     "type": "other"
