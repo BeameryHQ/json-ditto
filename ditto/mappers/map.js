@@ -10,20 +10,23 @@ const assert = require('assert');
  */
 async function map(document, mappings, plugins) {
 
-    function processMappings(document, mappings, output, isIterable = false) {
+    function processMappings(document, mappings, output, options = {isIterable: false}) {
         if (!mappings) return document;
-        else if (isIterable) {
-            return document.map(function(_document) {
-                return processMappings(_document, mappings);
+        else if (options.isIterable) {
+            let _output = [];
+            _.each(document, (_document, key) => {
+                _output.push(processMappings(_document, mappings, output, {isIterable: false, key}));
             });
+            return _output;
         } else if (typeof mappings === 'string') {
-            return applyTransformation(document, mappings, output);
+            return applyTransformation(document, mappings, output, _.get(options, 'key', null));
         } else if (mappings.hasOwnProperty('output')) {
-            let innerDocument = _.get(document, mappings.innerDocument.replace(/.\*/, ''), null);
-            if (mappings.innerDocument.endsWith('*')) {
-                innerDocument = _.values(innerDocument);
+            let _document, _output, options = {};
+            if (mappings.hasOwnProperty('innerDocument')) {
+                _document = _.get(document, mappings.innerDocument.replace(/.\*/, ''), null);
+                options['isIterable'] = true;
             }
-            let _output = processMappings(innerDocument, mappings.mappings, output, true);
+            _output = processMappings(_document || document, mappings.mappings, output, options);
             if (mappings.hasOwnProperty('required')) {
                 mappings.required.forEach(_required => {
                     _output = _output.filter(_result => {
@@ -33,7 +36,8 @@ async function map(document, mappings, plugins) {
             }
             if (_.isPlainObject(mappings.output)) {
                 let keys = [];
-                _output.forEach(element => { keys.push(element.$key) && delete element['$$key'] });
+                _output = Array.isArray(_output) ? _output : [_output];
+                _output.forEach(element => { keys.push(element.$$key) && delete element['$$key'] });
                 _output = _.zipObject(keys, _output);
             }
             return _output;
@@ -44,14 +48,14 @@ async function map(document, mappings, plugins) {
                     let _output = processMappings(document, value, output);
                     output[key] = _output;
                 }
-            })
+            });
             return output;
         }
 
-        function applyTransformation(document, path, output) {
-            console.log("applyTransformation =====>");
-            console.log("document",document);
-            console.log("path",path);
+        function applyTransformation(document, path, output, $key) {
+            // console.log("APPLY TRANSFORMATIOM =====>");
+            // console.log("document", document);
+            // console.log("path", path);
             if (path.includes('??'))  {
                 return getValue(document, path, output);
             } else if (_.startsWith(path, '$'))  {
@@ -87,7 +91,9 @@ async function map(document, mappings, plugins) {
         function getValue(document, path, output) {
             if (!path) return;
 
-            if (path === '!') return document;
+            if (path === '!') {
+                return document;
+            }
 
             if (_.startsWith(path, '$')) {
                 return eval(path);
@@ -97,7 +103,7 @@ async function map(document, mappings, plugins) {
                 return _.get(output, path.replace('!', ''));
             } else if (/\|\|/.test(path) && !path.includes('??') ) {
                 let pathWithDefault = path.split(/\|\|/);
-                return getValue(document, pathWithDefault[0]) || getValue(`${pathWithDefault[1]}`);
+                return getValue(document, pathWithDefault[0]) || getValue(document, `${pathWithDefault[1]}`);
             } else if (path.includes('??') ){
                 let parameters = _.zipObject(['source', 'targetValue', 'comparator', 'comparison', 'condition'],
                     path.match(/(.+?)\?\?(.+?)\#(.*)\#(.+)/));
@@ -106,11 +112,6 @@ async function map(document, mappings, plugins) {
                 const secondValue = applyTransformation(document, parameters.condition, output);
 
                 const isValidValue = operation(parameters.comparison, firstValue, secondValue);
-                console.log("parameters", parameters);
-                console.log("firstValue", firstValue);
-                console.log("secondValue", secondValue);
-                console.log("isValidValue", isValidValue);
-                console.log("document", document);
                 return isValidValue ? applyTransformation(document, parameters.targetValue, output) : null;
             } else {
                 return _.get(document, path);
