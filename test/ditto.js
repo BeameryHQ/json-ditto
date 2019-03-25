@@ -26,10 +26,13 @@ describe('ditto Interface', function(){
     before(function(){
         return new ditto(dummyMappings, dummyPlugin).unify(dummySample).then((result) => {
             this.result = result;
+            console.log("*********************");
+            console.log("\n\noutput\n\n", JSON.stringify(result, null, 2));
+            console.log("*********************");
         });
     });
 
-    it('should be able to map an object with a direct flat mapping', function(){
+    it.only('should be able to map an object with a direct flat mapping', function(){
         assert.strictEqual(this.result.name, dummyResult.name);
     });
 
