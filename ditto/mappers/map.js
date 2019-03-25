@@ -46,10 +46,15 @@ async function map(document, mappings, plugins) {
             return _output;
         } else {
             const output = {};
+            const reducer = (input, fn) => {
+                return _.reduceRight(input,(accumulator, currentValue) => fn(accumulator,currentValue))
+            };
             _.each(mappings, (value, key) => {
                 if (mappings.hasOwnProperty(key)) {
                     let _output = processMappings(document, value, output, options);
-                    output[key] = _output;
+                    if (Array.isArray(value)) {
+                        output[key] = Array.isArray(value[0].output) ? reducer(_output, _.concat) : reducer(_output, _.merge);
+                    } else output[key] = _output;
                 }
             });
             return output;

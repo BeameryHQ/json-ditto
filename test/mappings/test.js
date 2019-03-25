@@ -7,7 +7,7 @@ module.exports = {
     "isNickNameFound": "nickname||>>%false",
     "isDynamicDefault": "nickname||firstName",
     "fullName": "@concatName(firstName|middleName|lastName)",
-	"fullNameDefaultHardcoded": "@concatName(firstName|lastName|*>>default)",
+    "fullNameDefaultHardcoded": "@concatName(firstName|lastName|*>>default)",
     "fullName_withNotFoundMiddle": "@concatName(firstName|fullName.middleName|lastName)",
     "fullNameDefault": "@concatName(firstName|*!fullName_withNotFoundMiddle)",
     "completeName": "@concatName(firstName|!fullName)",
@@ -16,22 +16,44 @@ module.exports = {
         "value": "email"
     },
     "links": "links",
-    "social_links": [{
-        "output"       : [],
+    "social_links_objectified": [{
+        "output": {},
         "innerDocument": "links",
         "required": ["value"],
-        "mappings"     : {
+        "mappings": {
+            "$$key": "!",
             "value": "!",
             "type": ">>test",
             "order": "$key",
             "social": ">>%true"
         }
-    },{
-        "output"       : [],
+    }, {
+        "output": {},
         "innerDocument": "social",
         "required": ["value"],
-        "mappings"     : {
-            "value"  : "value",
+        "mappings": {
+            "$$key": "value",
+            "value": "value",
+            "service": "service",
+            "type": ">>social"
+        }
+    }],
+    "social_links": [{
+        "output": [],
+        "innerDocument": "links",
+        "required": ["value"],
+        "mappings": {
+            "value": "!",
+            "type": ">>test",
+            "order": "$key",
+            "social": ">>%true"
+        }
+    }, {
+        "output": [],
+        "innerDocument": "social",
+        "required": ["value"],
+        "mappings": {
+            "value": "value",
             "service": "service",
             "type": ">>social"
         }
@@ -77,9 +99,9 @@ module.exports = {
         }
     },
     "social_links_objects": {
-        "output"       : {},
+        "output": {},
         "innerDocument": "links",
-        "mappings" : {
+        "mappings": {
             "$$key": "@generateId(!)",
             "value": "!"
         }
@@ -96,11 +118,11 @@ module.exports = {
     },
     "experience_primary": {
         "values": {
-            "output"       : {},
-            "mappings"     : {
-                "$$key"          : "@generateId(title|company)",
-		            "id"              : "@generateId(title|company)",
-                "role"            : "title",
+            "output": {},
+            "mappings": {
+                "$$key": "@generateId(title|company)",
+                "id": "@generateId(title|company)",
+                "role": "title",
                 "organisationName": "company"
             }
         }
@@ -121,7 +143,7 @@ module.exports = {
             "innerDocument": "work",
             "mappings": {
                 "$$key": "@generateId(companyName|title)",
-				"id": "@generateId(companyName|title)",
+                "id": "@generateId(companyName|title)",
                 "name": "companyName",
                 "role": "title",
                 "startDate": "startDate",
