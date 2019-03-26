@@ -16,7 +16,8 @@ describe('ditto Interface', function(){
 
     let dummyPlugin   = {
       transformTwitterHandle: (target) => {
-          return `@${target.match(/^https?:\/\/(www\.)?twitter\.com\/(#!\/)?([^\/]+)(\/\w+)*$/)[3]}`
+          const twitterHandle = target.match(/^https?:\/\/(www\.)?twitter\.com\/(#!\/)?([^\/]+)(\/\w+)*$/);
+          return !!twitterHandle ? `@${twitterHandle[3]}` : null;
       }
     };
 
@@ -48,11 +49,11 @@ describe('ditto Interface', function(){
     });
 
     it('should be able to assign a new value based on an already mapped one', function(){
-        assert.strictEqual(this.result.displayName, "Ahmad Ahmad Assaf");
+        assert.strictEqual(this.result.displayName, "Ahmad Ahmad AbdelMuti Assaf");
     });
 
     it('should be able to allow for duplicate values without flattening/compacting them', function(){
-        assert.strictEqual(this.result.fullName, "Ahmad Ahmad Assaf");
+        assert.strictEqual(this.result.fullName, "Ahmad Ahmad AbdelMuti Assaf");
     });
 
     it('should be able to apply a condition on an output path', function(){
@@ -201,7 +202,7 @@ describe('ditto Interface', function(){
                 "prerequisite": "!!innerResult.value",
                 "required": ["value"],
                 "mappings": {
-                    "value": "value??type#==#>>social"
+                    "value": "value??type#===#>>social"
                 }
             }
         }).unify(badObj).then((result) => {

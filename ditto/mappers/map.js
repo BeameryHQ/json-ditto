@@ -1,5 +1,6 @@
 const _  = require('lodash');
-const Transformer = require('./lib/transform');
+
+const Transformer = require('./lib/transformer');
 
 /**
  * @function map

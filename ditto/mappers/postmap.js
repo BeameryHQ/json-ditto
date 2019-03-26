@@ -1,4 +1,5 @@
 const _  = require('lodash');
+const hoover = require('./lib/hoover');
 
 /**
  * @function postMap
@@ -19,32 +20,9 @@ async function postMap(result) {
      * @param obj The object from where you want to remove the keys
      * @param keys An array of property names (strings) to remove
      */
-    function removeKeys(obj, keys) {
-        var index;
-        for (var prop in obj) {
-            // important check that this is objects own property not from prototype prop inherited
-            if (obj.hasOwnProperty(prop)) {
-                switch(typeof(obj[prop])) {
-                    case 'string':
-                        index = keys.indexOf(prop);
-                        if(index > -1) {
-                            delete obj[prop];
-                        }
-                        break;
-                    case 'object':
-                        index = keys.indexOf(prop);
-                        if (index > -1) {
-                            delete obj[prop];
-                        } else {
-                            removeKeys(obj[prop], keys);
-                        }
-                        break;
-                }
-            }
-        }
-    }
+
     // Make sure we remove Ditto built in keys
-    removeKeys(result, ['$$key']);
+    hoover(result, ['$$key']);
     return _(result).omitBy([_.isNil, isEmptyObject]).value();
 }
 

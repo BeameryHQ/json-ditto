@@ -6,10 +6,10 @@ module.exports = {
     "nickname": "nickname||>>nickname_not_found",
     "isNickNameFound": "nickname||>>%false",
     "isDynamicDefault": "nickname||firstName",
-    "fullName": "@concatName(firstName|middleName|lastName)",
-    "fullNameDefaultHardcoded": "@concatName(firstName|lastName|*>>default)",
+    "fullName": "@concatName(firstName|middleName||>>AbdelMuti|lastName)",
+    "fullNameDefaultHardcoded": "@concatName(nonExistingProperty)||>>default",
     "fullName_withNotFoundMiddle": "@concatName(firstName|fullName.middleName|lastName)",
-    "fullNameDefault": "@concatName(firstName|*!fullName_withNotFoundMiddle)",
+    "fullNameDefault": "!fullName_withNotFoundMiddle",
     "completeName": "@concatName(firstName|!fullName)",
     "displayName": "!fullName",
     "email": {
@@ -65,7 +65,7 @@ module.exports = {
         "mappings": {
             "service": "@getLinkService(value|service)",
             "type": "@getLinkType(value|@getLinkService(value,service))",
-            "value": "@cleanURI(value|@getLinkType(value,@getLinkService(value,service)))??@getLinkType(value|@getLinkService(value,service))#==#>>messaging"
+            "value": "@cleanURI(value|@getLinkType(value,@getLinkService(value,service)))??@getLinkType(value|@getLinkService(value,service))#===#>>messaging"
         }
     },
     "website_addresses_keyless": {
@@ -73,7 +73,7 @@ module.exports = {
         "innerDocument": "linksv2.values",
         "required": ["value"],
         "mappings": {
-            "value": "value??type#==#>>website",
+            "value": "value??type#===#>>website",
             "type": ">>other",
         }
     },
@@ -84,7 +84,7 @@ module.exports = {
         "prerequisite": "!!innerResult.value && !!innerResult.keys && !!innerResult.keys.length",
         "key": "id",
         "mappings": {
-            "value": "value??keys[0]#==#>>f5e32a6faaa7ead6ba201e8fa25733ee",
+            "value": "value??keys[0]#===#>>f5e32a6faaa7ead6ba201e8fa25733ee",
             "type": ">>other",
             "keys": "keys"
         }
@@ -95,7 +95,7 @@ module.exports = {
         "required": ["value"],
         "requirements": ["@uniqueArray(!|>>value)"],
         "mappings": {
-            "value": "@transformTwitterHandle(value)??service#==#>>twitter"
+            "value": "@transformTwitterHandle(value)??service#===#>>twitter"
         }
     },
     "social_links_objects": {
