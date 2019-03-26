@@ -23,22 +23,21 @@ async function map(document, mappings, plugins) {
         } else if (typeof mappings === 'string') {
             return transformer.transform(document, mappings, output, _.get(options, 'key'));
         } else if (mappings.hasOwnProperty('output')) {
-            let _output, options = {};
+            let _output, _innerDocument = '!', options = {};
             if (mappings.hasOwnProperty('innerDocument')) {
                 options['isIterable'] = true;
+                _innerDocument = mappings.innerDocument;
             }
-            _output = processMappings(_.get(document, mappings.innerDocument, document), mappings.mappings, output, options);
+            _output = processMappings(transformer.transform(document, _innerDocument, output), mappings.mappings, output, options);
             if (mappings.hasOwnProperty('required')) {
-                _output = _.last(_.map(mappings.required, _required => { return _.filter(_output, _required) }));
+                _output = _.last(_.map(mappings.required, _required => { return _.filter(_.flatten([_output]), _required) }));
             }
             if (_.isPlainObject(mappings.output)) {
                 const __output = _.flattenDeep([_output]);
                 _output = _.zipObject(_.map(__output, $ => { return $.$$key}), __output);
+            } else if (mappings.hasOwnProperty('$push')) {
+                _output = _.compact(_output.map($ => {return $.$value}));
             }
-            if (mappings.hasOwnProperty('$push')) {
-                _output = _output.map($ => {return $.$value})
-            }
-
             return _output;
 
         } else {

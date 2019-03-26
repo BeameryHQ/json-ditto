@@ -11,7 +11,6 @@ module.exports = {
     "fullName_withNotFoundMiddle": "@concatName(firstName|fullName.middleName|lastName)",
     "fullNameDefault": "!fullName_withNotFoundMiddle",
     "completeName": "@concatName(firstName|!fullName)",
-    "concatendatedName": _.snakeCase('!fullName'),
     "displayName": "!fullName",
     "email": {
         "value": "email"

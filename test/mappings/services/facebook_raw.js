@@ -22,7 +22,6 @@ module.exports = {
         "values" : {
             "output": {},
             "key": "@generateIdForLinks(data.link)",
-            "innerDocument": "!",
             "required": ["value"],
             "mappings"     : {
                 "id"      : "@generateIdForLinks(data.link)",
@@ -35,15 +34,17 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!links.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "emails" : {
         "values" : {
             "output": {},
             "key": "@generateId(data.email)",
-            "innerDocument": "!",
             "required": ["value"],
             "mappings"     : {
                 "id"   : "@generateId(data.email)",
@@ -53,8 +54,11 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!emails.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "experience": {
@@ -74,8 +78,11 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!experience.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "education" : {
@@ -94,14 +101,16 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!education.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "photos" : {
         "values" : {
 			"output"       : {},
-			"innerDocument": "!",
 			"key"          : "@generateId(data.picture.data.url)",
 			"required"     : ["value"],
 			"mappings"     : {
@@ -111,8 +120,11 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!photos.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "createdAt": "@!new Date()",

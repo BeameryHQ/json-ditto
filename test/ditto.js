@@ -24,7 +24,6 @@ describe('ditto Interface', function(){
     before(function(){
         return new ditto(dummyMappings, dummyPlugin).unify(dummySample).then((result) => {
             this.result = result;
-            console.log(JSON.stringify(result, null, 2));
         });
     });
 
