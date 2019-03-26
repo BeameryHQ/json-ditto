@@ -177,5 +177,6 @@ module.exports = {
       "universityName": "University of St.Andrews"
     }
   },
-  "primaryPhoto": "http://photo.com/ahmadassaf"
+  "primaryPhoto": "http://photo.com/ahmadassaf",
+  "createdAt": "2019-01-01T00:00:00.000Z"
 }

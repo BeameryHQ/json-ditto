@@ -18,6 +18,8 @@ module.exports = class Transformer {
             return transformer.extractor.extract(document, path, output);
         } else if (_.startsWith(path, '$'))  {
             return eval(path);
+        } else if (_.startsWith(path, '@!')) {
+            return eval(path.replace('@!', ''));
         } else if (_.startsWith(path, '@')) {
 
             const parameters = _.zipObject(['name', 'arguments'], path.split(/\((.*)\)/).filter(Boolean));

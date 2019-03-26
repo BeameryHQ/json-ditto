@@ -1,4 +1,4 @@
-'use strict';
+const _ = require('lodash');
 
 module.exports = {
     "name": "firstName",
@@ -11,6 +11,7 @@ module.exports = {
     "fullName_withNotFoundMiddle": "@concatName(firstName|fullName.middleName|lastName)",
     "fullNameDefault": "!fullName_withNotFoundMiddle",
     "completeName": "@concatName(firstName|!fullName)",
+    "concatendatedName": _.snakeCase('!fullName'),
     "displayName": "!fullName",
     "email": {
         "value": "email"
@@ -175,5 +176,6 @@ module.exports = {
     //     "innerDocument": "volunteer",
     //     "value": "@concatName(organisation|>> at |title)"
     // },
-    "primaryPhoto": "@createURL(>>http://photo.com/|!fullNameDefault)"
+    "primaryPhoto": "@createURL(>>http://photo.com/|!fullNameDefault)",
+    "createdAt": "@!new Date('2019').toISOString()"
 }
