@@ -1,4 +1,5 @@
 const _  = require('lodash');
+const hoover = require('./lib/hoover');
 
 /**
  * @function postMap
@@ -11,7 +12,10 @@ async function postMap(result) {
     function isEmptyObject(value, key) {
         return _.isPlainObject(value) && _.isEmpty(value) ? true : false;
     }
-    return _(result).omitBy(_.isUndefined).omitBy(_.isNull).omitBy(isEmptyObject).value();
+
+    // Make sure we remove Ditto built in keys
+    hoover(result, ['$$key']);
+    return _(result).omitBy(_.isNil).omitBy(isEmptyObject).value();
 }
 
 module.exports = postMap;

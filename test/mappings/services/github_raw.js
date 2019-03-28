@@ -19,7 +19,6 @@ module.exports = {
         "values" : [{
             "output": {},
             "key": "@generateIdForLinks(data.html_url)",
-            "innerDocument": "!",
             "required": ["value"],
             "mappings"     : {
                 "id"      : "@generateIdForLinks(data.html_url)",
@@ -33,7 +32,6 @@ module.exports = {
             }
         },{
             "output": {},
-            "innerDocument": "!",
             "key": "@generateId(data.blog)",
             "required": ["value"],
             "mappings"     : {
@@ -44,15 +42,17 @@ module.exports = {
         }],
         "keys" : {
             "output": [],
-            "innerDocument": "!links.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "experience": {
         "values" : {
             "output": {},
             "key": "@generateId(data.company)",
-            "innerDocument": "!",
             "required": ["organisationName"],
             "mappings"     : {
                 "id"              : "@generateId(data.company)",
@@ -61,15 +61,17 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!experience.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "emails" : {
         "values" : {
             "output": {},
             "key": "@generateId(data.email)",
-            "innerDocument": "!",
             "required": ["value"],
             "mappings"     : {
                 "id"   : "@generateId(data.email)",
@@ -79,15 +81,17 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!emails.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "photos" : {
         "values" : {
             "output": {},
             "key": "@generateId(data.avatar_url)",
-            "innerDocument": "!",
             "required": ["value"],
             "mappings"     : {
                 "id"   : "@generateId(data.avatar_url)",
@@ -96,8 +100,11 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!photos.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "location": {

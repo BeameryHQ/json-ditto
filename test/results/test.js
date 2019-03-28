@@ -6,11 +6,12 @@ module.exports = {
   "nickname": "nickname_not_found",
   "isNickNameFound": false,
   "isDynamicDefault": "Ahmad",
-  "fullName": "Ahmad Assaf",
+  "fullName": "Ahmad Ahmad AbdelMuti Assaf",
   "fullNameDefault": "Ahmad Assaf",
   "fullNameDefaultHardcoded": "default",
-  "completeName": "Ahmad Ahmad Assaf",
-  "displayName": "Ahmad Assaf",
+  "fullName_withNotFoundMiddle"     : "Ahmad Assaf",
+  "completeName": "Ahmad Ahmad Ahmad AbdelMuti Assaf",
+  "displayName": "Ahmad Ahmad AbdelMuti Assaf",
   "email": {
     "value": "ahmad.a.assaf@gmail.com"
   },
@@ -48,6 +49,36 @@ module.exports = {
     "service": "twitter",
     "type": "social"
   }],
+  "social_links_objectified": {
+    "http://a.com": {
+      "value": "http://a.com",
+      "type": "test",
+      "order": 0,
+      "social": true
+    },
+    "http://b.com": {
+      "value": "http://b.com",
+      "type": "test",
+      "order": 1,
+      "social": true
+    },
+    "http://c.com": {
+      "value": "http://c.com",
+      "type": "test",
+      "order": 2,
+      "social": true
+    },
+    "http://github.com/ahmadassaf": {
+      "value": "http://github.com/ahmadassaf",
+      "service": "github",
+      "type": "social"
+    },
+    "http://twitter.com/ahmadaassaf": {
+      "value": "http://twitter.com/ahmadaassaf",
+      "service": "twitter",
+      "type": "social"
+    }
+  },
   "website_addresses_keyless": [{
     "value": "https://gravatar.com/ahmadassaf",
     "type": "other"
@@ -146,5 +177,6 @@ module.exports = {
       "universityName": "University of St.Andrews"
     }
   },
-  "primaryPhoto": "http://photo.com/ahmadassaf"
+  "primaryPhoto": "http://photo.com/ahmadassaf",
+  "createdAt": "2019-01-01T00:00:00.000Z"
 }

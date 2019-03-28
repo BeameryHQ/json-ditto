@@ -20,7 +20,6 @@ module.exports = {
         "values" : {
             "output": {},
             "key": "@generateIdForLinks(data.publicProfileUrl)",
-            "innerDocument": "!",
             "required": ["value"],
             "mappings"     : {
                 "id"      : "@generateIdForLinks(data.publicProfileUrl)",
@@ -35,15 +34,17 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!links.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "emails" : {
         "values" : {
             "output": {},
             "key": "@generateId(data.emailAddress)",
-            "innerDocument": "!",
             "required": ["value"],
             "mappings"     : {
                 "id"   : "@generateId(data.emailAddress)",
@@ -53,8 +54,11 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!emails.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "location": {
@@ -79,8 +83,11 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!experience.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "education" : {
@@ -102,8 +109,11 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!education.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "languages" : {
@@ -119,25 +129,31 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!languages.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "photos" : {
         "values" : {
             "output": {},
-            "key": "@generateId($value)",
+            "key": "@generateId(!)",
             "innerDocument": "data.pictureUrls.values",
             "required": ["value"],
             "mappings"     : {
-                "id"   : "@generateId($value)",
-                "value": "$value"
+                "id"   : "@generateId(!)",
+                "value": "!"
             }
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!photos.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "createdAt": "@!new Date()",

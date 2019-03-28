@@ -19,7 +19,6 @@ module.exports = {
         "values" : {
             "output": {},
             "key": "@generateIdForLinks(data.profile.profileUrl)",
-            "innerDocument": "!",
             "required": ["value"],
             "mappings"     : {
                 "id"      : "@generateIdForLinks(data.profile.profileUrl)",
@@ -32,8 +31,11 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!links.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "emails" : {
@@ -50,15 +52,17 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!emails.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "photos" : {
         "values" : {
             "output": {},
             "key": "@generateId(data.profile.id)",
-            "innerDocument": "!",
             "required": ["value"],
             "mappings"     : {
                 "id"       : "@generateId(data.profile.id)",
@@ -68,8 +72,11 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!photos.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "experience": {
@@ -88,8 +95,11 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!experience.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "education" : {
@@ -108,8 +118,11 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!education.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "createdAt": "@!new Date()",
