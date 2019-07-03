@@ -7,7 +7,9 @@
     "test": "mocha test/index.js",
     "performance": "node --allow-natives-syntax ./node_modules/mocha/bin/_mocha --reporter mocha-performance ./test/index.js",
     "cover": "NODE_ENV=test istanbul cover _mocha -- -R spec test/index.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -20,11 +22,13 @@
     "joi": "^14.3.1",
     "lodash": "^4.5.1",
     "moment": "^2.15.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "debug": "^4.1.1",
     "eslint": "^5.15.3",
     "mocha": "^6.0.2"
-  }
+  },
+  "snyk": true
 }
