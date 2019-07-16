@@ -11,7 +11,7 @@
 
 # Ditto
 
-JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. When dealing with data integration problems, the need to translate JSON from external formats to adhere to an internal representation become a vital task. Ditto was created to solve the issue of unifying external data representation.
+JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. When dealing with data integration problems, the need to translate JSON from external formats to adhere to an internal representation becomes a vital task. Ditto was created to solve the issue of unifying external data representation.
 
 Ditto parses a mapping file (see [mapping rules](https://github.com/BeameryHQ/Ditto#mapping-rules)) and produces a JSON output from the input data to match the output definition. Ditto has three main mapping steps as shown in the diagram below where the output of each step is fed as input to the next one:
 
@@ -129,7 +129,7 @@ function concatName() {
 
 ### Functions in Functions
 
-Sometimes you may want to pass the value of a function into another function as a parameter. You can do this easily by calling the function name inside the arguments. However, an important to thing to note is that inner function calls, if they contain more than one parameter, then the paramteres have to be separated by a comma `,` rather than the traditional `|`.
+Sometimes you may want to pass the value of a function into another function as a parameter. You can do this easily by calling the function name inside the arguments. However, an important to thing to note is that inner function calls, if they contain more than one parameter, then the parameters have to be separated by a comma `,` rather than the traditional `|`.
 
 Examples:
 
@@ -141,7 +141,7 @@ Examples:
 ### Plugins Activation
 
 The plugins are activated in the `/ditto/plugins/plugins.js` file by adding the plugin name (corresponds exactly to the file name `.js` of the definition) in the `plugins` array.
-The plugin will be reuqired and exported to be used in the main `mapping` function in the interface.
+The plugin will be required and exported to be used in the main `mapping` function in the interface.
 
 ```javascript
 'use strict';
@@ -204,11 +204,11 @@ Mapping "flat" structures is straightforward. For example:
 
 In here we are parsing directly flat structure and creating objects out of them. For example, we will not have the `email` value defined as an object `email:{value:"test@email.com"}` instead of what it was in the input file as `email:"test@email.com"`
 
-However, things can become a bit more complex when we trying to create complex objects like arrays or objects. Defining these structures requires defining various extra parameters in the mapping file:
+However, things can become a bit more complex when we are trying to create complex objects like arrays or objects. Defining these structures requires defining various extra parameters in the mapping file:
 
  - `output`: This will define the output path type whether it is an array `[]` or an object `{}`
- - `key`: This is a required filed only when the output is set to be an object `{}` as objects assigned needs to have a key defined
- - `innerDocument`: Since we are creating a "collection" we are most probably looping inside of a collection as well. The `innerDocument` property tells the mapper on which collection to loop. However, if the `innerResult` is set to `!` then this mean that the `innerDocument` scope is the current input document root.
+ - `key`: This is a required field only when the output is set to be an object `{}` as objects assigned needs to have a key defined
+ - `innerDocument`: Since we are creating a "collection" we are most probably looping inside of a collection as well. The `innerDocument` property tells the mapper on which collection to loop. However, if the `innerResult` is set to `!` then this means that the `innerDocument` scope is the current input document root.
  - `prerequisite` (optional): This defines a condition that has to be met before a parsed result is pushed or assigned to the collection. The prerequisite works on the already extracted result, so it will be defined for example as `!!innerResult.value` whereas the `!!innerResult` is taken always with context to the mapping
  - `required` (optional): Similar to `prerequisite` this defines a condition that has to be met before the result is pushed. However, this examines the data after it has been porcessed while the `prerequisite` works directly on the `innerResult` object.
  - `requirements` (optional): Simlar to required, this works on the result after it has been assigned. For example, this can be a check to make sure that the resulting array or object contains unique values
@@ -238,26 +238,54 @@ However, things can become a bit more complex when we trying to create complex o
 
 ## Mapping FAQs:
 
- - How can i point the Ditto to a deep nested Object ?
+ - How can I point the Ditto to a deep nested Object ?
  > Ditto uses Lodash's `_.get` which means that you can pass any path in form of a String or an Array e.g., `a.b.c[0].d` or `[a, b, c[0], d]`
 
- - How can i iterate over a nested Object ?
+ - How can I iterate over a nested Object ?
  > To iterate over a sub-path, you need to define an `innerDocument`. The inner document path is again parsed with the `_.get` so it can be as complex as it can get. However, as the structure of the Ditto requires that an `innerDocument` has to be defined when creating an array or Object of Objects, you can refer to the current document root with **!**
 
  - I see some paths prefixed with `!` .. what does that mean ?
  > Sometimes you need to access already parsed values (as in values in your result file). This is seen for example when we are trying to create the `keys` array from the already generated ids. In that case, the **!** prefixed path e.g., `!links.values` will refer to the already extracted `links.values` Object in the result file
 
- - If i want to extract data from multiple places for the same Object, how can i do that ?
- > Ditto allows to specify multiple Objects to be set as a parsing target. For example, if we are creating an Object and you to have the `values` extracted from multiple places then you define your `values` as an array of objects where each Object will have output, innerDocument, etc. (you can check the `contacts.v2.js` sample mappping file). However, if you are creating an Object without `values` then your direct mapping will be an array of Object (check `test.js` sample mapping file and see the `social_links` mapping)
+ - If I want to extract data from multiple places for the same Object, how can I do that ?
+ > Ditto allows you to specify multiple Objects to be set as a parsing target. For example, if we are creating an Object and you to have the `values` extracted from multiple places then you define your `values` as an array of objects where each Object will have output, innerDocument, etc. (you can check the `contacts.v2.js` sample mappping file). However, if you are creating an Object without `values` then your direct mapping will be an array of Object (check `test.js` sample mapping file and see the `social_links` mapping)
 
- - If i am creating an Object of Object, each Object should have a key. How can i define that ?
- > For object of objects (i believe you have defined the output as `{}`) then you need to define a `key` object. The `key` object is an array where you define that various targets that will be parsed as a key. The key is defined either as a relative path to the currently parsed Object or as a function call e.g., `"key": "@generateId($key|degree)"`
+ - If I am creating an Object of Object, each Object should have a key. How can I define that ?
+ > For object of objects (I believe you have defined the output as `{}`) then you need to define a `key` object. The `key` object is an array where you define that various targets that will be parsed as a key. The key is defined either as a relative path to the currently parsed Object or as a function call e.g., `"key": "@generateId($key|degree)"`
 
- - If i am iterating on an array or an object, can i have access to the array value and index, or the object key ?
- > Yes, definitely. These variables can be access via the `$value` which referrs to teh value of the object or the array or the `$key` which refers to the Object key or the array element index
+ - If I am iterating on an array or an object, can I have access to the array value and index, or the object key ?
+ > Yes, definitely. These variables can be access via the `$value` which refers to the value of the object or the array or the `$key` which refers to the Object key or the array element index
 
- - In functions, how can i pass a string ?
+ - In functions, how can I pass a string ?
  > In the same way we hardcode values by appending `>>` you can pass any String to the function. e.g., `@getImageLink(>>http://photo.com/|!fullName)` where we pass the url `http://photo.com` as a first parameter
+ 
+## Upgrading from ditto v1 to v2:
+
+**Creating a keys array for each value in a collection:**
+
+Old v1 way:
+
+	keys: {
+	    output: [],
+	    innerDocument: '!emails.values',
+	    "value: 'id'
+	    }
+
+New v2 way:
+
+	keys: {
+	    output: [],
+	    innerDocument: '!values',
+	    "$push": true,
+	    "mappings": {
+	      "$value": "id"
+	    }
+	}
+	
+**Referencing the input document root:**
+
+If fields are being referenced directly (e.g. `data.experience.company.name`), then `innerDocument: "!"` in `values` should be removed as it is no longer needed and will break the mapping. Passing in the name of a collection and looping inside of it remains unchanged, e.g. `innerDocument: "data.experience"` and then `organisationName: "company.name"`
+
 
 ### Check the test files for complete use cases coverage
 
