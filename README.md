@@ -269,7 +269,7 @@ Old v1 way:
 	    output: [],
 	    innerDocument: '!emails.values',
 	    "value: 'id'
-	    }
+	}
 
 New v2 way:
 
@@ -281,6 +281,10 @@ New v2 way:
 	      "$value": "id"
 	    }
 	}
+
+**Referencing an object's value when iterating inside of it**
+
+`$value` should be replaced with `!` for this use case.
 	
 **Referencing the input document root:**
 
