@@ -281,6 +281,22 @@ New v2 way:
 	      "$value": "id"
 	    }
 	}
+	
+**Assigning output arrays**
+
+Arrays can now be assigned directly without first defining an object with an expected output and an innerDocument.
+
+Old v1 way:
+
+	"uniqueKeys" : {
+		"output": [],
+		"innerDocument": "!",
+		"value": "@assignUniqueIds(!links.values|!emails.values)"
+	}
+
+New v2 way:
+
+	"uniqueKeys": "@assignUniqueIds(!links.values|!emails.values)"
 
 **Referencing an object's value when iterating inside of it**
 
