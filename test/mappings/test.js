@@ -7,7 +7,7 @@ module.exports = {
     "isNickNameFound": "nickname||>>%false",
     "isDynamicDefault": "nickname||firstName",
     "fullName": "@concatName(firstName|middleName||>>AbdelMuti|lastName)",
-    "fullNameDefaultHardcoded": "@concatName(nonExistingProperty)||>>default",
+    "fullNameDefaultHardcoded": "@concatName(nonExistingProperty||>>default)",
     "fullName_withNotFoundMiddle": "@concatName(firstName|fullName.middleName|lastName)",
     "fullNameDefault": "!fullName_withNotFoundMiddle",
     "completeName": "@concatName(firstName|!fullName)",

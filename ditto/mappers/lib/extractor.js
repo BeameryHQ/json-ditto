@@ -9,7 +9,7 @@ module.exports = class Extractor {
         this.transformer = transformer;
     }
 
-    extract (document, path, output) {
+    async extract (document, path, output) {
 
         const extractor = this;
 
@@ -23,14 +23,19 @@ module.exports = class Extractor {
             return _.get(output, path.replace('!', ''));
         } else if (/\|\|/.test(path) && !path.includes('??') ) {
             let pathWithDefault = path.split(/\|\|/);
-            return extractor.extract(document, pathWithDefault[0], output) || extractor.extract(document, `${pathWithDefault[1]}`, output);
-        } else if (path.includes('??') ){
-            const parameters = _.zipObject(['source', 'targetValue', 'comparator', 'comparison', 'condition'],
-                path.match(/(.+?)\?\?(.+?)\#(.*)\#(.+)/));
-            const _comparator = extractor.transformer.transform(document, parameters.comparator, output);
-            const _condition = extractor.transformer.transform(document, parameters.condition, output);
+            let _extractedValue = await extractor.extract(document, pathWithDefault[0], output);
+            let _defaultValue = await extractor.extract(document, `${pathWithDefault[1]}`, output);
 
-            return comparator(parameters.comparison, _comparator, _condition) ? extractor.transformer.transform(document, parameters.targetValue, output) : null;
+            if (!!_extractedValue) {
+                return _extractedValue 
+            } else return await extractor.extract(document, `${pathWithDefault[1]}`, output);
+        } else if (path.includes('??') ){
+
+            const parameters = _.zipObject(['source', 'targetValue', 'comparator', 'comparison', 'condition'], path.match(/(.+?)\?\?(.+?)\#(.*)\#(.+)/));
+            const _comparator = await extractor.transformer.transform(document, parameters.comparator, output);
+            const _condition = await extractor.transformer.transform(document, parameters.condition, output);
+            
+            return comparator(parameters.comparison, _comparator, _condition) ? await extractor.transformer.transform(document, parameters.targetValue, output) : null;
 
         } else return _.get(document, path);
     }

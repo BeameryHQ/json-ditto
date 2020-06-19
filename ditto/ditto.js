@@ -7,7 +7,6 @@ let defaultPlugins   = require('./plugins/index');
 
 class Ditto {
 
-    // TODO: Fix this when we have a supportive Node version for ES6 default parameters
     constructor(mappings, plugins) {
 
         this.mappings = mappings;

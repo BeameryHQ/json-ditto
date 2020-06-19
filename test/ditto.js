@@ -21,11 +21,9 @@ describe('ditto Interface', function(){
       }
     };
 
-    before(function(){
-        return new ditto(dummyMappings, dummyPlugin).unify(dummySample).then((result) => {
-            this.result = result;
-        });
-    });
+    before(async function(){
+        this.result = await new ditto(dummyMappings, dummyPlugin).unify(dummySample);
+     });
 
     it('should be able to map an object with a direct flat mapping', function(){
         assert.strictEqual(this.result.name, dummyResult.name);
@@ -123,7 +121,7 @@ describe('ditto Interface', function(){
         assert.equal(this.result.experience_object.values["894b6152a9dde92713a40590f6f4d5b8"].id, "894b6152a9dde92713a40590f6f4d5b8");
     });
 
-    it('should return a default value if found without executing the function defined', function(){
+    it('should return a default value if found and function does not return', function(){
 		assert.strictEqual(this.result.fullNameDefault, "Ahmad Assaf");
 		assert.strictEqual(this.result.fullNameDefaultHardcoded, "default");
     });

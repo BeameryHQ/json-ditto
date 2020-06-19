@@ -29,5 +29,6 @@ module.exports = {
 	parseString: require('./parseString'),
 	splitList: require('./splitList'),
 	uniqueArray: require('./uniqueArray'),
-	formatDate: require('./formatDate')
+	formatDate: require('./formatDate'),
+	standardiseRleTitle: require('./standardiseRoleTitle')
 };

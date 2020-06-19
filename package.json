@@ -4,7 +4,7 @@
   "description": "JSON shape-shifter 👻 | Easily map your JSON formats",
   "main": "ditto/ditto.js",
   "scripts": {
-    "test": "mocha test/index.js",
+    "test": "mocha test/index.js --timeout 150000",
     "performance": "node --allow-natives-syntax ./node_modules/mocha/bin/_mocha --reporter mocha-performance ./test/index.js",
     "cover": "NODE_ENV=test istanbul cover _mocha -- -R spec test/index.js",
     "lint": "eslint ."
@@ -15,6 +15,7 @@
   },
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "beam-uri": "^2.1.1",
     "humanparser": "^1.10.0",
     "joi": "^14.3.1",

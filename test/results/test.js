@@ -9,7 +9,7 @@ module.exports = {
   "fullName": "Ahmad Ahmad AbdelMuti Assaf",
   "fullNameDefault": "Ahmad Assaf",
   "fullNameDefaultHardcoded": "default",
-  "fullName_withNotFoundMiddle"     : "Ahmad Assaf",
+  "fullName_withNotFoundMiddle": "Ahmad Assaf",
   "completeName": "Ahmad Ahmad Ahmad AbdelMuti Assaf",
   "displayName": "Ahmad Ahmad AbdelMuti Assaf",
   "email": {
