@@ -19,7 +19,6 @@ module.exports = {
         "values" : [{
             "output": {},
             "key": "@generateIdForLinks(data.profile.profileUrl)",
-            "innerDocument": "!",
             "required": ["value"],
             "mappings"     : {
                 "id"      : "@generateIdForLinks(data.profile.profileUrl)",
@@ -34,7 +33,6 @@ module.exports = {
         },{
             "output": {},
             "key": "@generateId(data.profile._json.blog)",
-            "innerDocument": "!",
             "required": ["value"],
             "mappings"     : {
                 "id"      : "@generateId(data.profile._json.blog)",
@@ -44,15 +42,17 @@ module.exports = {
         }],
         "keys" : {
             "output": [],
-            "innerDocument": "!links.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "experience": {
         "values" : {
             "output": {},
             "key": "@generateId(data.profile._json.company)",
-            "innerDocument": "!",
             "required": ["organisationName"],
             "mappings"     : {
                 "id"              : "@generateId(data.profile._json.company)",
@@ -61,15 +61,17 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!experience.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "emails" : {
         "values" : {
             "output": {},
             "key": "@generateId(data.profile._json.email)",
-            "innerDocument": "!",
             "required": ["value"],
             "mappings"     : {
                 "id"   : "@generateId(data.profile._json.email)",
@@ -79,8 +81,11 @@ module.exports = {
         },
         "keys" : {
             "output": [],
-            "innerDocument": "!emails.values",
-            "value": "id"
+            "innerDocument": "!values",
+            "$push": true,
+            "mappings": {
+                "$value": "id"
+            }
         }
     },
     "location": {
